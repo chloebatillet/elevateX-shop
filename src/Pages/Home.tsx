@@ -1,15 +1,17 @@
-import Wrapper from "../Components/Wrapper/Wapper";
+import Caroussel from "../Components/Caroussel";
+import TrustBanner from "../Components/TrustBanner";
+import Wrapper from "../Components/Wapper";
 
 function Home() {
   return (
     <>
-      <div>Caroussel</div>
+      <Caroussel />
       <Wrapper>
         <div>Collections</div>
-        <div>Populaires</div>
         <div>Rejoins le club</div>
+        <div>Populaires</div>
       </Wrapper>
-      <div>Bandeau confiance</div>
+      <TrustBanner />
     </>
   );
 }
