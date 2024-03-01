@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  /* color: rgba(255, 255, 255, 0.87);
+  background-color: #242424; */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
+    font-family: "Rajdhani", sans-serif;
+}
+
+#root {
+  margin: 0 auto;
+  /* padding: 0 2rem; */
+  /*supprimer par la suite*/
+  text-align: center;
+  width: 100vw;
+}
+
+.image-container {
+  background: url('../public/productImg/techflowx-2000/techflowx_2000_2_white.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.product-card:hover {
+  .product-card-sizes {
+    bottom: 0;
+  }
+}
+

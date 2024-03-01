@@ -7,9 +7,11 @@ function BannerClub() {
     <>
       <div
         className="flex flex-row bg-slate-900 text-[#eee] my-12 relative"
-        style={{ overflow: "hidden" }}
       >
-        <div className="bg-slate-800 font-bold text-violet-500 uppercase rotate-1 absolute top-0">
+        <div
+          className="bg-slate-800 font-bold text-violet-500 uppercase rotate-1 absolute -top-3 overflow-hidden"
+          style={{ width: "-webkit-fill-available" }}
+        >
           membersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonly
         </div>
         <div
@@ -17,10 +19,9 @@ function BannerClub() {
           style={{
             background: 'url("../../public/otherImages/join-club-banner.jpg")',
             backgroundSize: "cover",
-            backgroundPositionY: "bottom"
+            backgroundPositionY: "bottom",
           }}
-        >
-        </div>
+        ></div>
         <div className="flex flex-col gap-6 items-start justify-center text-xl text-start py-10 px-10">
           <p>
             Plongez dans le futur de la mode avec nos
@@ -35,8 +36,8 @@ function BannerClub() {
           </Button>
         </div>
         <div
-          className="bg-slate-800 font-bold text-violet-500 uppercase rotate-1 absolute -bottom-6"
-          style={{ overflow: "hidden", boxSizing: "border-box" }}
+          className="bg-slate-800 font-bold text-violet-500 uppercase rotate-1 absolute -bottom-3 overflow-hidden"
+          style={{ width: "-webkit-fill-available" }}
         >
           membersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonlymembersonly
         </div>
