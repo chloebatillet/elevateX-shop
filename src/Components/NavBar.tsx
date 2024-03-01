@@ -72,7 +72,7 @@ function NavBar() {
                   href={el.url}
                   aria-current="page"
                   color={
-                    el.name === "shop"
+                    el.name === ""
                       ? "secondary"
                       : el.name === "promotions"
                       ? "danger"
@@ -114,7 +114,13 @@ function NavBar() {
                   variant="light"
                   isIconOnly
                 >
-                  <Badge color="danger" content={50} shape="circle" size="sm">
+                  <Badge
+                    color="danger"
+                    content={2}
+                    shape="circle"
+                    showOutline={false}
+                    size="sm"
+                  >
                     <CartIcon />
                   </Badge>
                 </Button>
