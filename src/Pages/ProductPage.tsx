@@ -17,7 +17,7 @@ function ProductPage() {
   const item = findItem(prod.products, "slug", slug);
 
   useEffect(() => {
-    //scrollTo({top:0})
+    scrollTo({top:0})
 
     const list = prod.products.filter((e) => {
       return e.slug !== slug;
