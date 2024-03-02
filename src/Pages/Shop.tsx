@@ -4,10 +4,16 @@ import ProductCard from "../Components/ProductCard";
 import BannerClub from "../Components/BannerClub";
 
 import { Product } from "../@types";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { reset } from "../store/reducers/productsReducer";
+import { Button } from "@nextui-org/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 function Shop() {
+  const dispatch = useAppDispatch();
   const productList = useAppSelector((state) => state.products.filteredList);
+  const allProducts = useAppSelector((state) => state.products.list);
+  const isFiltered:any = productList !== allProducts;
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -23,6 +29,18 @@ function Shop() {
           backgroundPositionY: "bottom",
         }}
       ></div>
+
+      {isFiltered && (<div className="flex justify-end mb-2">
+        <Button
+          className="bg-slate-900 text-slate-50"
+          size="sm"
+          onClick={() => dispatch(reset())}
+          startContent={<XMarkIcon className="w-4 h-4" />}
+        >
+          Supprimer les filtres
+        </Button>
+      </div>)}
+
       <Filters />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
         {productList?.map((p: Product) => {
@@ -37,4 +55,3 @@ function Shop() {
 }
 
 export default Shop;
-

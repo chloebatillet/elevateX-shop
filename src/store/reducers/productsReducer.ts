@@ -1,4 +1,4 @@
-import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import { Product } from "../../@types";
 
 import { products } from "../../assets/products.json";
@@ -56,13 +56,15 @@ export const order = createAsyncThunk(
   }
 );
 
-export const resetList = createAsyncThunk("products/resetList", async () => {
-  try {
-    console.log("reset");
-  } catch (error: any) {
-    throw new Error(error.response.data.error);
-  }
-});
+export const reset = createAction("products/reset") 
+
+// export const resetList = createAsyncThunk("products/resetList", async () => {
+//   try {
+//     return initialState.list;
+//   } catch (error: any) {
+//     throw new Error(error.response.data.error);
+//   }
+// });
 
 const productsReducer = createReducer(initialState, (builder) => {
   builder
@@ -79,16 +81,12 @@ const productsReducer = createReducer(initialState, (builder) => {
     .addCase(order.fulfilled, (state, action) => {
       state.filteredList = action.payload!;
     })
-    .addCase(resetList.pending, (state) => {
-      state.isLoading = true;
+    // .addCase(resetList.fulfilled, (state, action) => {
+    //   state.filteredList = initialState.filteredList;
+    //   state.isLoading = false;
+    // })
+    .addCase(reset, (state) => {state.filteredList = state.list; console.log('coucou');
     })
-    .addCase(resetList.fulfilled, (state /*action*/) => {
-      state.filteredList = initialState.filteredList;
-      state.isLoading = false;
-    })
-    .addCase(resetList.rejected, (state) => {
-      state.isLoading = false;
-    });
 });
 
 export default productsReducer;
