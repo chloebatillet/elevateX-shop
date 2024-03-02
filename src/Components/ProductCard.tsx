@@ -13,7 +13,7 @@ function ProductCard({
   "size-available": sizeAvailable,
 }: ProductCardProps) {
   return (
-    <Link to={slug} className="product-card">
+    <Link to={`/shop/${slug}`} className="product-card">
       <div className="relative overflow-hidden">
         <Image
           radius="none"

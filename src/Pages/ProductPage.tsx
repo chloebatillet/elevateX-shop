@@ -45,7 +45,7 @@ function ProductPage() {
     console.log(newList);
 
     setSuggestions(newList);
-  }, []);
+  }, [slug]);
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
