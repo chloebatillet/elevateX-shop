@@ -58,7 +58,7 @@ function ProductPage() {
         <div>
           <Image
             radius="none"
-            src={`../../public/productImg/${item.slug}/${item.images[indexImg]}`}
+            src={`/productImg/${item.slug}/${item.images[indexImg]}`}
           />
           <div className="grid grid-cols-4 mt-2 gap-1">
             {item.images.map((e: string, index: number) => {
@@ -66,7 +66,7 @@ function ProductPage() {
                 <Image
                   key={e}
                   radius="none"
-                  src={`../../public/productImg/${item.slug}/${e}`}
+                  src={`/productImg/${item.slug}/${e}`}
                   className={
                     index === indexImg
                       ? "border brightness-50"

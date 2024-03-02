@@ -1,7 +1,5 @@
 import { Button } from "@nextui-org/react";
 
-import "../../public/otherImages/join-club-banner.jpg";
-
 function BannerClub() {
   return (
     <>
@@ -17,7 +15,7 @@ function BannerClub() {
         <div
           className="w-1/3"
           style={{
-            background: 'url("../../public/otherImages/join-club-banner.jpg")',
+            background: 'url("/otherImages/join-club-banner.jpg")',
             backgroundSize: "cover",
             backgroundPositionY: "bottom",
           }}

@@ -1,4 +1,4 @@
-import logo from "../../../public/Noir_et_Blanc_Encadré_Future_DJ_Logo-removebg-preview.png";
+import logo from "/Noir_et_Blanc_Encadré_Future_DJ_Logo-removebg-preview.png";
 import About from "./About";
 import Cities from "./Cities";
 import Contact from "./Contact";

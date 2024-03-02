@@ -17,7 +17,7 @@ import {
 
 import ModalTemplate from "./ModalTemplate";
 
-import logo from "../../public/favicon.ico";
+import logo from "/favicon.ico";
 import UserIcon from "./Icons/UserIcon";
 import CartIcon from "./Icons/CartIcon";
 

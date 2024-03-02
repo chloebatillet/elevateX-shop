@@ -18,7 +18,7 @@ function ProductCard({
         <Image
           radius="none"
           isZoomed
-          src={`../../public/productImg/${slug}/${images[0]}`}
+          src={`/productImg/${slug}/${images[0]}`}
         />
 
         <div className="grid grid-cols-10 product-card-sizes absolute bg-slate-50/[.7] w-full text-start -bottom-6 transition-all z-10">
