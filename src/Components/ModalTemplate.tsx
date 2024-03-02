@@ -6,13 +6,11 @@ import {
   Button,
   Modal,
 } from "@nextui-org/react";
-import { ReactElement } from "react";
 
 interface ModalTemplateProps {
   isOpen: boolean;
   onOpenChange: () => void;
   title?: string;
-  children?: ReactElement;
   actionButton?: boolean;
   actionFunction?: () => void;
   closeButton?: boolean;
@@ -22,7 +20,6 @@ function ModalTemplate({
   isOpen,
   onOpenChange,
   title,
-  children,
   actionButton,
   actionFunction,
   closeButton,

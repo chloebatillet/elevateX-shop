@@ -15,30 +15,31 @@ import { findItem } from "../hooks/findItem";
 import { useEffect, useState } from "react";
 import { HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import ProductCard from "../Components/ProductCard";
+import { Product } from "../@types";
 
 function ProductPage() {
   const { slug } = useParams();
   const [indexImg, setIndexImg] = useState(0);
-  const [sizeSelected, setSizeSelected] = useState(null);
-  const [suggestions, setSuggestions] = useState([{}]);
+  const [sizeSelected, setSizeSelected] = useState(0);
+  const [suggestions, setSuggestions] = useState<Product[]>([]);
 
-  const item = findItem(prod.products, "slug", slug);
+  const item:Product = findItem(prod.products, "slug", slug);
 
   useEffect(() => {
     scrollTo({ top: 0 });
 
-    const list = prod.products.filter((e) => {
+    const list:Product[] = prod.products.filter((e:Product) => {
       return e.slug !== slug;
     });
 
-    const randomIndexArr: [] = [];
+    const randomIndexArr: number[] = [];
 
     for (let i = 0; i < 4; i++) {
-      let id: never | number = Math.floor(Math.random() * (list.length + 1));
+      const id: number = Math.floor(Math.random() * (list?.length + 1));
       randomIndexArr.push(id);
     }
 
-    const newList = list.filter((_, index: number) => {
+    const newList: Product[] = list.filter((_, index: number) => {
       return randomIndexArr.includes(index);
     });
     console.log(newList);
@@ -156,14 +157,27 @@ function ProductPage() {
           </Accordion>
         </div>
       </div>
-      <Divider className="mt-12 mb-6" />
+
+      <Divider className="mt-12 mb-6 border" />
+
+      {/* Recommandations */}
       <div className="text-start">
         <h4 className="text-xl font-bold mb-3 ml-2">Vous aimerez aussi...</h4>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {suggestions.length > 1 &&
-            suggestions.map((p, index) => {
-              //return <p>{p.title}</p>
-              return <ProductCard key={index} {...p} />;
+            suggestions.map((p:Product, index:number) => {
+              return (
+                <ProductCard
+                  key={index}
+                  title={p.title}
+                  price={p.price}
+                  slug={p.slug}
+                  likes={p.likes}
+                  images={p.images}
+                  size-range={p["size-range"]}
+                  size-available={p["size-available"]}
+                />
+              );
             })}
         </div>
       </div>

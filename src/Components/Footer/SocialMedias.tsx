@@ -1,9 +1,4 @@
 function SocialMedias() {
-  const style = {
-    icon: { marginRight: "8px" },
-    container: { display: "flex", flexDirection: "row", padding: "0px" },
-  };
-
   return (
     <div className="flex flex-row gap-2 fill-slate-50">
       <div className="w-4 h-4 hover:fill-violet-300">

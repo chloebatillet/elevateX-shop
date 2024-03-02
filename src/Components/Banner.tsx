@@ -18,12 +18,16 @@ function Banner({ messages }: BannerProps) {
   document.addEventListener("mouseenter", () => changeMessage());
 
   window.addEventListener("wheel", (e) => {
-    if (e.deltaY > 0) {
-      document.querySelector("#banner").style.position = "absolute";
-      document.querySelector("#banner").style.top = "-50px";
-    } else {
-      document.querySelector("#banner").style.position = "relative";
-      document.querySelector("#banner").style.top = "0";
+    const banner:HTMLElement = document.querySelector("#banner")!;
+
+    if (banner.style) {
+      if (e.deltaY > 0) {
+        banner.style.position = "absolute";
+        banner.style.top = "-50px";
+      } else {
+        banner.style.position = "relative";
+        banner.style.top = "0";
+      }
     }
   });
 

@@ -21,7 +21,7 @@ function NewsletterForm() {
         value={value}
         onValueChange={setValue}
         className="max-w-[220px]"
-        size="xs"
+        size={undefined}
         isClearable
         isRequired
       />

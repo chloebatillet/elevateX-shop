@@ -1,8 +1,5 @@
 import "../../public/otherImages/hero-homepage.mp4";
 
-interface CarousselProps {
-  images: string[];
-}
 
 //! modifier plus tard
 function Caroussel() {

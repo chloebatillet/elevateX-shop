@@ -1,5 +1,5 @@
-import React from "react";
-import { findInArray } from "../hooks/findInArray";
+/* eslint-disable */
+
 import {
   Dropdown,
   DropdownTrigger,
@@ -8,23 +8,20 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 
+import { findInArray } from "../hooks/findInArray";
+import { useState, useMemo } from "react";
+
 interface DropdownFilterListProps {
   list: string[];
   name: string;
 }
 
 function DropdownFilterList({ list, name }: DropdownFilterListProps) {
+  const [selectedKeysArr, setSelectedKeysArr] = useState(new Set([]));
 
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["all"]));
-
-  //   const selectedValue = React.useMemo(
-  //     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-  //     [selectedKeys]
-  //   );
-
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys),
-    [selectedKeys]
+  const selectedValue = useMemo(
+    () => Array.from(selectedKeysArr),
+    [selectedKeysArr]
   );
 
   const found = findInArray(selectedValue, list);
@@ -37,9 +34,6 @@ function DropdownFilterList({ list, name }: DropdownFilterListProps) {
           className="capitalize border rounded"
           color="default"
         >
-          {/* {selectedValue.find((e) => e === "all") && selectedValue.length === 1
-            ? `${name}`
-            : selectedValue.filter((e) => e !== "all").join(", ")} */}
           {name}
         </Button>
       </DropdownTrigger>
@@ -49,13 +43,29 @@ function DropdownFilterList({ list, name }: DropdownFilterListProps) {
         closeOnSelect={false}
         disallowEmptySelection
         selectionMode="multiple"
-        selectedKeys={selectedKeys}
-        onSelectionChange={setSelectedKeys}
+        selectedKeys={selectedKeysArr}
+        // onSelectionChange={setSelectedKeysArr}
+        onSelectionChange={(keys: any) => {
+          setSelectedKeysArr(keys);
+        }}
       >
-        <DropdownItem key="all">Tout</DropdownItem>
-        {list.map((e: string) => {
-          return <DropdownItem key={e}>{e}</DropdownItem>;
-        })}
+        {list.map((e: string) => (
+          <DropdownItem
+            key={e}
+            startContent={
+              name === "Couleurs" && (
+                <div className="flex items-center">
+                  <div
+                    className="w-6 h-6 border"
+                    style={{ background: `${e}` }}
+                  ></div>
+                </div>
+              )
+            }
+          >
+            {e}
+          </DropdownItem>
+        ))}
       </DropdownMenu>
     </Dropdown>
   );

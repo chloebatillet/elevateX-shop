@@ -1,6 +1,6 @@
-import DropdownFilterList from "./DropdownFilterList";
+import { useState } from "react";
 
-import prod from "../assets/products.json";
+import DropdownFilterList from "./DropdownFilterList";
 import {
   Popover,
   PopoverTrigger,
@@ -12,60 +12,48 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { useState } from "react";
-import React from "react";
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  slug: string;
-  description: string;
-  composition: string;
-  entretien: string;
-  colour: string[];
-  collection: string;
-  images: string[];
-}
+import prod from "../assets/products.json";
 
-interface FilterProps {
-  productsList: Product[];
-  setProductsList: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: number;
-        title: string;
-        price: number;
-        slug: string;
-        description: string;
-        composition: string;
-        entretien: string;
-        images: string[];
-      }[]
-    >
-  >;
-}
+
+// interface FilterProps {
+//   productsList: Product[];
+//   setProductsList: React.Dispatch<
+//     React.SetStateAction<
+//       {
+//         id: number;
+//         title: string;
+//         price: number;
+//         slug: string;
+//         description: string;
+//         composition: string;
+//         entretien: string;
+//         images: string[];
+//       }[]
+//     >
+//   >;
+// }
 
 /* FILTERS DATA ---------------------- */
-const ordered_prices = [
-  ...new Set(
-    prod.products
-      .map((item) => item.price)
-      .sort(function (a, b) {
-        return a - b;
-      })
-  ),
-];
+// const ordered_prices = [
+//   ...new Set(
+//     prod.products
+//       .map((item) => item.price)
+//       .sort(function (a, b) {
+//         return a - b;
+//       })
+//   ),
+// ];
 
-const ordered_likes = [
-  ...new Set(
-    prod.products
-      .map((item) => item.likes)
-      .sort(function (a, b) {
-        return b - a;
-      })
-  ),
-];
+// const ordered_likes = [
+//   ...new Set(
+//     prod.products
+//       .map((item) => item.likes)
+//       .sort(function (a, b) {
+//         return b - a;
+//       })
+//   ),
+// ];
 
 const allColours = [
   ...new Set(
@@ -90,13 +78,7 @@ const allSizes = [
 
 function Filters() {
   const [maxPrice, setMaxPrice] = useState(0);
-
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
-
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-    [selectedKeys]
-  );
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
 
   return (
     <div
@@ -104,10 +86,14 @@ function Filters() {
       style={{ justifyContent: "space-between" }}
     >
       <div className="flex gap-2">
+        {/* Collections */}
         <DropdownFilterList list={allCollections} name={"Collections"} />
+        {/* Couleurs */}
         <DropdownFilterList list={allColours} name="Couleurs" />
+        {/* Pointures */}
         <DropdownFilterList list={allSizes} name="Pointure" />
 
+        {/* Prix */}
         <Popover placement="bottom">
           <PopoverTrigger>
             <Button
@@ -133,7 +119,7 @@ function Filters() {
                   filler: "bg-slate-900",
                   thumb: "bg-slate-900 w-3 h-3 after:h-0",
                 }}
-                onChangeEnd={setMaxPrice}
+                onChange={(price: any) => setMaxPrice(price)}
               />
               <div
                 style={{
@@ -150,7 +136,8 @@ function Filters() {
         </Popover>
       </div>
 
-      <div className="">
+      {/* Trier */}
+      <div>
         <Dropdown>
           <DropdownTrigger>
             <Button
@@ -182,12 +169,12 @@ function Filters() {
             disallowEmptySelection
             selectionMode="single"
             selectedKeys={selectedKeys}
-            onSelectionChange={setSelectedKeys}
+            onSelectionChange={(keys: any) => setSelectedKeys(keys)}
           >
             <DropdownItem key="text">Prix croissant</DropdownItem>
             <DropdownItem key="number">Prix décroissant</DropdownItem>
             <DropdownItem key="date">Populaires</DropdownItem>
-            <DropdownItem key="single_date">Nouveauté</DropdownItem>
+            <DropdownItem key="single_date">Nouveautés</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>
