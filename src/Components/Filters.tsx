@@ -14,6 +14,8 @@ import {
 } from "@nextui-org/react";
 
 import prod from "../assets/products.json";
+import { useAppDispatch } from "../hooks/redux";
+import { order } from "../store/reducers/productsReducer";
 
 
 // interface FilterProps {
@@ -77,8 +79,9 @@ const allSizes = [
 ];
 
 function Filters() {
+  const dispatch = useAppDispatch();
   const [maxPrice, setMaxPrice] = useState(0);
-  const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["priceUp"]));
 
   return (
     <div
@@ -169,12 +172,12 @@ function Filters() {
             disallowEmptySelection
             selectionMode="single"
             selectedKeys={selectedKeys}
-            onSelectionChange={(keys: any) => setSelectedKeys(keys)}
+            onSelectionChange={(keys: any) => {setSelectedKeys(keys); dispatch(order(keys.currentKey))}}
           >
-            <DropdownItem key="text">Prix croissant</DropdownItem>
-            <DropdownItem key="number">Prix décroissant</DropdownItem>
-            <DropdownItem key="date">Populaires</DropdownItem>
-            <DropdownItem key="single_date">Nouveautés</DropdownItem>
+            <DropdownItem key="priceUp">Prix croissant</DropdownItem>
+            <DropdownItem key="priceDown">Prix décroissant</DropdownItem>
+            <DropdownItem key="popularity">Populaires</DropdownItem>
+            <DropdownItem key="newest">Nouveautés</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>

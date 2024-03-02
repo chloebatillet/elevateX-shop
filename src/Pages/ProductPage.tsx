@@ -1,5 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useAppSelector } from "../hooks/redux";
+
 import Wrapper from "../Components/Wapper";
+import ProductCard from "../Components/ProductCard";
 import {
   Accordion,
   AccordionItem,
@@ -10,11 +14,8 @@ import {
   Image,
 } from "@nextui-org/react";
 
-import prod from "../assets/products.json";
 import { findItem } from "../hooks/findItem";
-import { useEffect, useState } from "react";
 import { HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
-import ProductCard from "../Components/ProductCard";
 import { Product } from "../@types";
 
 function ProductPage() {
@@ -22,13 +23,14 @@ function ProductPage() {
   const [indexImg, setIndexImg] = useState(0);
   const [sizeSelected, setSizeSelected] = useState(0);
   const [suggestions, setSuggestions] = useState<Product[]>([]);
+  const productList = useAppSelector((state) => state.products.list)
 
-  const item:Product = findItem(prod.products, "slug", slug);
+  const item: Product = findItem(productList, "slug", slug);
 
   useEffect(() => {
     scrollTo({ top: 0 });
 
-    const list:Product[] = prod.products.filter((e:Product) => {
+    const list:Product[] = productList.filter((e:Product) => {
       return e.slug !== slug;
     });
 
@@ -50,7 +52,7 @@ function ProductPage() {
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
       <Breadcrumbs className="mb-3">
-        <BreadcrumbItem>Shop</BreadcrumbItem>
+        <BreadcrumbItem><Link to={"/shop"} >Shop</Link></BreadcrumbItem>
         <BreadcrumbItem>{item.title}</BreadcrumbItem>
       </Breadcrumbs>
       <div className="grid sm:grid-cols-2 gap-6">

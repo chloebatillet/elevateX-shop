@@ -3,10 +3,12 @@ import Wrapper from "../Components/Wapper";
 import ProductCard from "../Components/ProductCard";
 import BannerClub from "../Components/BannerClub";
 
-import prod from "../assets/products.json";
 import { Product } from "../@types";
+import { useAppSelector } from "../hooks/redux";
 
 function Shop() {
+  const productList = useAppSelector((state) => state.products.filteredList);
+
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
       <div
@@ -23,7 +25,7 @@ function Shop() {
       ></div>
       <Filters />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-        {prod.products?.map((p:Product) => {
+        {productList?.map((p: Product) => {
           return <ProductCard key={p.title} {...p} />;
         })}
       </div>
@@ -35,3 +37,4 @@ function Shop() {
 }
 
 export default Shop;
+
