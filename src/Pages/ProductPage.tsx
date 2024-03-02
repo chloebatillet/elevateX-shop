@@ -1,6 +1,14 @@
 import { useParams } from "react-router-dom";
 import Wrapper from "../Components/Wapper";
-import { Accordion, AccordionItem, Button, Divider, Image } from "@nextui-org/react";
+import {
+  Accordion,
+  AccordionItem,
+  BreadcrumbItem,
+  Breadcrumbs,
+  Button,
+  Divider,
+  Image,
+} from "@nextui-org/react";
 
 import prod from "../assets/products.json";
 import { findItem } from "../hooks/findItem";
@@ -17,7 +25,7 @@ function ProductPage() {
   const item = findItem(prod.products, "slug", slug);
 
   useEffect(() => {
-    scrollTo({top:0})
+    scrollTo({ top: 0 });
 
     const list = prod.products.filter((e) => {
       return e.slug !== slug;
@@ -40,6 +48,10 @@ function ProductPage() {
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
+      <Breadcrumbs className="mb-3">
+        <BreadcrumbItem>Shop</BreadcrumbItem>
+        <BreadcrumbItem>{item.title}</BreadcrumbItem>
+      </Breadcrumbs>
       <div className="grid sm:grid-cols-2 gap-6">
         {/* Gallerie */}
         <div>
@@ -68,10 +80,10 @@ function ProductPage() {
         </div>
 
         <div className="flex flex-col text-start">
-          <h2 className="font-bold text-4xl">{item.title}</h2>
-          <h3 className="text-2xl">{item.collection}</h3>
-          <p className="mb-6">{item.price}€</p>
-          <p>{item.description}</p>
+          <h2 className="font-bold text-4xl mx-2 sm:mx-0">{item.title}</h2>
+          <h3 className="text-2xl mx-2 sm:mx-0">{item.collection}</h3>
+          <p className="mb-6 mx-2 sm:mx-0">{item.price}€</p>
+          <p className="mx-2 sm:mx-0">{item.description}</p>
 
           {/* Pointures */}
           <div className="grid grid-cols-5 product-card-sizes bg-slate-50/[.7] w-full text-start transition-all z-10 mt-12">
@@ -97,10 +109,9 @@ function ProductPage() {
           </div>
 
           {/* CTA */}
-          <div className="w-full border grid grid-cols-1 sm:grid-cols-2 my-12 sticky top-0 bottom-0 z-20">
+          <div className="w-full border grid grid-cols-1 sm:grid-cols-2 my-12 sticky top-0 bottom-0 z-40">
             <Button
               radius="none"
-              variant="light"
               startContent={<HeartIcon className="h-6" />}
               className="border-0 bg-white hover:text-white hover:bg-slate-900"
             >

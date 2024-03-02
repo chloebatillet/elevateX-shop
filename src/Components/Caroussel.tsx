@@ -1,16 +1,20 @@
-import '../../public/productImg/elevatex-pro/elevatex_pro_1.jpg'
+import "../../public/otherImages/hero-homepage.mp4";
 
 interface CarousselProps {
-    images: string[]
+  images: string[];
 }
 
 //! modifier plus tard
 function Caroussel() {
   return (
-    <div className="bg-black h-screen w-full">
-      <div
-        className="image-container w-full h-full"
-      ></div>
+    <div className="bg-black w-full text-white">
+      <video autoPlay muted loop className="w-screen">
+        <source
+          src="../../public/otherImages/hero-homepage.mp4"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video>
     </div>
   );
 }
