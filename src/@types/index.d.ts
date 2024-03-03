@@ -10,6 +10,7 @@ export interface Product {
   collection: string[];
   likes: number;
   images: string[];
+  releaseDate: string;
   "size-range": number[];
   "size-available": number[];
 }

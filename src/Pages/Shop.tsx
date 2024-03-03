@@ -12,8 +12,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 function Shop() {
   const dispatch = useAppDispatch();
   const productList = useAppSelector((state) => state.products.filteredList);
-  const allProducts = useAppSelector((state) => state.products.list);
-  const isFiltered:any = productList !== allProducts;
+  const { isFiltered } = useAppSelector((state) => state.products);
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -30,16 +29,20 @@ function Shop() {
         }}
       ></div>
 
-      {isFiltered && (<div className="flex justify-end mb-2">
-        <Button
-          className="bg-slate-900 text-slate-50"
-          size="sm"
-          onClick={() => dispatch(reset())}
-          startContent={<XMarkIcon className="w-4 h-4" />}
-        >
-          Supprimer les filtres
-        </Button>
-      </div>)}
+      <>
+        {isFiltered ? (
+          <div className="flex justify-end mb-2">
+            <Button
+              className="bg-slate-900 text-slate-50"
+              size="sm"
+              onClick={() => dispatch(reset())}
+              startContent={<XMarkIcon className="w-4 h-4" />}
+            >
+              Supprimer les filtres
+            </Button>
+          </div>
+        ) : null}
+      </>
 
       <Filters />
 
@@ -52,7 +55,6 @@ function Shop() {
       <div className="py-12">
         <BannerClub />
       </div>
-      
     </Wrapper>
   );
 }

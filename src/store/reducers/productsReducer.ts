@@ -8,12 +8,14 @@ interface ProductsState {
   list: Product[];
   filteredList: Product[];
   isLoading: boolean;
+  isFiltered: boolean;
 }
 
 export const initialState: ProductsState = {
   list: products,
   filteredList: products,
   isLoading: false,
+  isFiltered: false,
 };
 
 // Liste des actions
@@ -21,19 +23,15 @@ export const filterPrice = createAsyncThunk(
   "products/filterPrice",
   async (maxPrice: number) => {
     try {
-      console.log(maxPrice);
-
       const filtered_products = [...initialState.filteredList].filter(
         (item) => {
           return item.price <= maxPrice;
         }
       );
 
-      console.log(filtered_products);
-
       return filtered_products;
     } catch (error: any) {
-      console.log("error");
+      console.log(error);
 
       throw new Error(error.response.data.error);
     }
@@ -76,7 +74,6 @@ export const filterBy = createAsyncThunk(
           return keys.some((v: any) => keyValues.includes(v.toString()));
         }
       });
-      console.log(newList);
 
       return newList;
     } catch (error: any) {
@@ -103,7 +100,12 @@ export const order = createAsyncThunk(
           newList = [...initialState.list].sort((a, b) => b.likes - a.likes);
           break;
         case "newest":
-          newList = [...initialState.list].sort((a, b) => b.likes - a.likes);
+          newList = [...initialState.list].sort(
+            (a, b) =>
+              new Date(b.releaseDate).getTime() -
+              new Date(a.releaseDate).getTime()
+          );
+
           break;
 
         default:
@@ -111,6 +113,7 @@ export const order = createAsyncThunk(
       }
       return newList;
     } catch (error: any) {
+      console.log(error);
       throw new Error(error.response.data.error);
     }
   }
@@ -124,24 +127,22 @@ const productsReducer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(filterPrice.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(filterPrice.fulfilled, (state, action) => {
         state.filteredList = action.payload;
         state.isLoading = false;
-      })
-      .addCase(filterPrice.rejected, (state) => {
-        state.isLoading = false;
+        state.isFiltered = true;
       })
       .addCase(order.fulfilled, (state, action) => {
         state.filteredList = action.payload!;
+        state.isFiltered = true;
       })
       .addCase(filterBy.fulfilled, (state, action) => {
         state.filteredList = action.payload!;
+        state.isFiltered = true;
       })
       .addCase(reset, (state) => {
         state.filteredList = state.list;
+        state.isFiltered = false;
       });
   },
 });

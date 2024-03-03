@@ -44,7 +44,6 @@ function ProductPage() {
     const newList: Product[] = list.filter((_, index: number) => {
       return randomIndexArr.includes(index);
     });
-    console.log(newList);
 
     setSuggestions(newList);
   }, [slug]);

@@ -14,26 +14,8 @@ import {
 } from "@nextui-org/react";
 
 import prod from "../assets/products.json";
-import { useAppDispatch } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { filterPrice, order } from "../store/reducers/productsReducer";
-
-//interface FilterProps {
-//   productsList: Product[];
-//   setProductsList: React.Dispatch<
-//     React.SetStateAction<
-//       {
-//         id: number;
-//         title: string;
-//         price: number;
-//         slug: string;
-//         description: string;
-//         composition: string;
-//         entretien: string;
-//         images: string[];
-//       }[]
-//     >
-//   >;
-// }
 
 /* FILTERS DATA ---------------------- */
 const ordered_prices = [
@@ -46,16 +28,6 @@ const ordered_prices = [
   ),
 ];
 
-// const ordered_likes = [
-//   ...new Set(
-//     prod.products
-//       .map((item) => item.likes)
-//       .sort(function (a, b) {
-//         return b - a;
-//       })
-//   ),
-// ];
-
 const allColours = [
   ...new Set(
     prod.products
@@ -66,7 +38,12 @@ const allColours = [
 ];
 
 const allCollections = [
-  ...new Set(prod.products.map((item) => item.collection).flat().sort()),
+  ...new Set(
+    prod.products
+      .map((item) => item.collection)
+      .flat()
+      .sort()
+  ),
 ];
 
 const allSizes = [
@@ -80,7 +57,8 @@ const allSizes = [
 function Filters() {
   const dispatch = useAppDispatch();
   const [maxPrice, setMaxPrice] = useState(0);
-  const [selectedKeys, setSelectedKeys] = useState(new Set(["priceUp"]));
+  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  const { isFiltered } = useAppSelector((state) => state.products);
 
   return (
     <div
@@ -99,7 +77,11 @@ function Filters() {
         <Popover placement="bottom">
           <PopoverTrigger>
             <Button
-              variant={maxPrice >= ordered_prices[0] ? "solid" : "bordered"}
+              variant={
+                maxPrice >= ordered_prices[0] && isFiltered
+                  ? "solid"
+                  : "bordered"
+              }
               className="capitalize border rounded"
               color="default"
             >
@@ -123,7 +105,6 @@ function Filters() {
                 }}
                 onChange={(price: any) => {
                   setMaxPrice(price);
-                  console.log(Math.round(price));
                 }}
                 onChangeEnd={(price: any) =>
                   dispatch(filterPrice(Math.round(price)))
@@ -172,7 +153,7 @@ function Filters() {
             </Button>
           </DropdownTrigger>
           <DropdownMenu
-            aria-label="Single selection example"
+            aria-label="Ordonner"
             variant="flat"
             disallowEmptySelection
             selectionMode="single"

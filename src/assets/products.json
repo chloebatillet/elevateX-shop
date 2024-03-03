@@ -17,6 +17,7 @@
         "elevatex_pro_3.jpg",
         "elevatex_pro_4.jpg"
       ],
+      "releaseDate": "2023-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [36, 37, 38, 39, 42, 45]
     },
@@ -37,6 +38,7 @@
         "hyperstride_xt_3.jpg",
         "hyperstride_xt_4.jpg"
       ],
+      "releaseDate": "2023-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [38, 41, 44]
     },
@@ -57,6 +59,7 @@
         "quantumsole_3000_3.jpg",
         "quantumsole_3000_4.jpg"
       ],
+      "releaseDate": "2023-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [37, 40, 41, 43, 44, 45]
     },
@@ -77,6 +80,7 @@
         "aerotech_ultra_3.jpg",
         "aerotech_ultra_4.jpg"
       ],
+      "releaseDate": "2023-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [36, 39, 42, 45]
     },
@@ -97,6 +101,7 @@
         "novaglide_x_3.jpg",
         "novaglide_x_4.jpg"
       ],
+      "releaseDate": "2024-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [37, 38, 41, 44]
     },
@@ -117,6 +122,7 @@
         "synapsesprint_pro_3.jpg",
         "synapsesprint_pro_4.jpg"
       ],
+      "releaseDate": "2024-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [36, 39, 42, 45]
     },
@@ -137,6 +143,7 @@
         "xenoshift_evo_3.jpg",
         "xenoshift_evo_4.jpg"
       ],
+      "releaseDate": "2024-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [37, 40, 43]
     },
@@ -157,6 +164,7 @@
         "fusionflex_max_3.jpg",
         "fusionflex_max_4.jpg"
       ],
+      "releaseDate": "2024-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [38, 41, 44]
     },
@@ -177,6 +185,7 @@
         "nebulakicks_pro_3.jpg",
         "nebulakicks_pro_4.jpg"
       ],
+      "releaseDate": "2024-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [36, 37, 38, 40, 43]
     },
@@ -197,6 +206,7 @@
         "cosmorun_elite_3.jpg",
         "cosmorun_elite_4.jpg"
       ],
+      "releaseDate": "2024-01-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [39, 42, 45]
     },
@@ -221,6 +231,7 @@
         "techflowx_2000_3_black.jpg",
         "techflowx_2000_4_black.jpg"
       ],
+      "releaseDate": "2023-06-15",
       "size-range": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
       "size-available": [36, 38, 41, 43, 44]
     }
