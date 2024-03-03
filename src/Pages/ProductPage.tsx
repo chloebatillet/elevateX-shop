@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 
 import Wrapper from "../Components/Wapper";
 import ProductCard from "../Components/ProductCard";
@@ -17,20 +17,22 @@ import {
 import { findItem } from "../hooks/findItem";
 import { HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Product } from "../@types";
+import { addToCart } from "../store/reducers/cartReducer";
 
 function ProductPage() {
+  const dispatch = useAppDispatch();
   const { slug } = useParams();
   const [indexImg, setIndexImg] = useState(0);
   const [sizeSelected, setSizeSelected] = useState(0);
   const [suggestions, setSuggestions] = useState<Product[]>([]);
-  const productList = useAppSelector((state) => state.products.list)
+  const productList = useAppSelector((state) => state.products.list);
 
   const item: Product = findItem(productList, "slug", slug);
 
   useEffect(() => {
     scrollTo({ top: 0 });
 
-    const list:Product[] = productList.filter((e:Product) => {
+    const list: Product[] = productList.filter((e: Product) => {
       return e.slug !== slug;
     });
 
@@ -51,7 +53,9 @@ function ProductPage() {
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
       <Breadcrumbs className="mb-3">
-        <BreadcrumbItem><Link to={"/shop"} >Shop</Link></BreadcrumbItem>
+        <BreadcrumbItem>
+          <Link to={"/shop"}>Shop</Link>
+        </BreadcrumbItem>
         <BreadcrumbItem>{item.title}</BreadcrumbItem>
       </Breadcrumbs>
       <div className="grid sm:grid-cols-2 gap-6">
@@ -93,8 +97,9 @@ function ProductPage() {
               let found = item["size-available"].includes(e);
 
               return (
-                <div
+                <button
                   key={e + index}
+                  type="button"
                   className={
                     sizeSelected === e
                       ? "bg-slate-500 text-center text-white cursor-pointer"
@@ -105,7 +110,7 @@ function ProductPage() {
                   onClick={() => setSizeSelected(e)}
                 >
                   {e}
-                </div>
+                </button>
               );
             })}
           </div>
@@ -124,6 +129,9 @@ function ProductPage() {
               variant="solid"
               startContent={<ShoppingCartIcon className="h-6" />}
               className="border-0 text-white bg-slate-900"
+              onClick={() => {
+                dispatch(addToCart({ model: item.slug, size: sizeSelected, price: item.price }));
+              }}
             >
               Ajouter au panier
             </Button>
@@ -166,7 +174,7 @@ function ProductPage() {
         <h4 className="text-xl font-bold mb-3 ml-2">Vous aimerez aussi...</h4>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {suggestions.length > 1 &&
-            suggestions.map((p:Product, index:number) => {
+            suggestions.map((p: Product, index: number) => {
               return (
                 <ProductCard
                   key={index}
