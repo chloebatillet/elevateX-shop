@@ -10,7 +10,7 @@ function About() {
   ];
 
   const about = list.map((e) => (
-    <li key={e} className="text-start hover:text-slate-600 text-sm">
+    <li key={e} className="text-start hover:text-slate-300 text-sm">
       <Link to={"/"}>{e}</Link>
     </li>
   ));

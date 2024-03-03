@@ -1,15 +1,19 @@
 import ReactDOM from "react-dom/client";
 import { NextUIProvider } from "@nextui-org/react";
-import App from "./App.tsx";
-import "./index.css";
+import { Provider } from "react-redux";
 
+import App from "./App.tsx";
 import Home from "./Pages/Home";
 import Shop from "./Pages/Shop.jsx";
 import ProductPage from "./Pages/ProductPage.jsx";
-import Basket from "./Pages/Basket.jsx";
+import Basket from "./Pages/Cart.js";
 import Checkout from "./Pages/Checkout.jsx";
 import ThankYou from "./Pages/ThankYou.jsx";
 import Account from "./Pages/Account.jsx";
+
+import store from "./store/index.ts";
+
+import "./index.scss";
 
 import {
   createBrowserRouter,
@@ -34,8 +38,10 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
+  <Provider store={store}>
     <NextUIProvider>
       <RouterProvider router={router} />
     </NextUIProvider>
+  </Provider>
   // </React.StrictMode>
 );

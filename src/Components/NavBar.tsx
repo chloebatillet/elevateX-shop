@@ -17,7 +17,7 @@ import {
 
 import ModalTemplate from "./ModalTemplate";
 
-import logo from "../../public/favicon.ico";
+import logo from "/favicon.ico";
 import UserIcon from "./Icons/UserIcon";
 import CartIcon from "./Icons/CartIcon";
 
@@ -45,7 +45,7 @@ function NavBar() {
 
   return (
     <>
-      <Navbar isBordered>
+      <Navbar isBordered position="static" shouldHideOnScroll={true}>
         <NavbarContent className="sm:hidden" justify="start">
           <NavbarMenuToggle />
         </NavbarContent>
@@ -65,9 +65,8 @@ function NavBar() {
         <NavbarContent className="hidden sm:flex gap-4 w-full" justify="center">
           {menuItems.map((el) => {
             return (
-              <NavbarItem /*isActive*/>
+              <NavbarItem key={el.name} /*isActive*/>
                 <Link
-                  key={el.name}
                   className="capitalize"
                   href={el.url}
                   aria-current="page"

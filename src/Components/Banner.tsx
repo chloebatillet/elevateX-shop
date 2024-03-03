@@ -17,11 +17,32 @@ function Banner({ messages }: BannerProps) {
 
   document.addEventListener("mouseenter", () => changeMessage());
 
+  window.addEventListener("wheel", (e) => {
+    const banner:HTMLElement = document.querySelector("#banner")!;
+
+    if (banner.style) {
+      if (e.deltaY > 0) {
+        banner.style.position = "absolute";
+        banner.style.top = "-50px";
+      } else {
+        banner.style.position = "relative";
+        banner.style.top = "0";
+      }
+    }
+  });
+
   useEffect(() => {
     setMessage(messages[index]);
   }, [index]);
 
-  return <div className="bg-black text-[#eee] text-sm p-1">{message}</div>;
+  return (
+    <div
+      id="banner"
+      className="bg-black text-[#eee] text-sm p-1 w-full"
+    >
+      {message}
+    </div>
+  );
 }
 
 export default Banner;

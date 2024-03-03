@@ -8,7 +8,7 @@ function Cities() {
   ];
 
   const boutiques = cities.map((e) => (
-    <li key={e.name} className="text-start hover:text-slate-600 text-sm">
+    <li key={e.name} className="text-start hover:text-slate-300 text-sm">
       <a href={e.link} target="_blank">
         {e.name}
       </a>
