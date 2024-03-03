@@ -42,14 +42,17 @@ function Shop() {
       </div>)}
 
       <Filters />
+
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
         {productList?.map((p: Product) => {
           return <ProductCard key={p.title} {...p} />;
         })}
       </div>
+
       <div className="py-12">
         <BannerClub />
       </div>
+      
     </Wrapper>
   );
 }

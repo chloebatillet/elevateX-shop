@@ -15,10 +15,9 @@ import {
 
 import prod from "../assets/products.json";
 import { useAppDispatch } from "../hooks/redux";
-import { order } from "../store/reducers/productsReducer";
+import { filterPrice, order } from "../store/reducers/productsReducer";
 
-
-// interface FilterProps {
+//interface FilterProps {
 //   productsList: Product[];
 //   setProductsList: React.Dispatch<
 //     React.SetStateAction<
@@ -37,15 +36,15 @@ import { order } from "../store/reducers/productsReducer";
 // }
 
 /* FILTERS DATA ---------------------- */
-// const ordered_prices = [
-//   ...new Set(
-//     prod.products
-//       .map((item) => item.price)
-//       .sort(function (a, b) {
-//         return a - b;
-//       })
-//   ),
-// ];
+const ordered_prices = [
+  ...new Set(
+    prod.products
+      .map((item) => item.price)
+      .sort(function (a, b) {
+        return a - b;
+      })
+  ),
+];
 
 // const ordered_likes = [
 //   ...new Set(
@@ -67,7 +66,7 @@ const allColours = [
 ];
 
 const allCollections = [
-  ...new Set(prod.products.map((item) => item.collection).sort()),
+  ...new Set(prod.products.map((item) => item.collection).flat().sort()),
 ];
 
 const allSizes = [
@@ -100,7 +99,7 @@ function Filters() {
         <Popover placement="bottom">
           <PopoverTrigger>
             <Button
-              variant={maxPrice > 0 ? "solid" : "bordered"}
+              variant={maxPrice >= ordered_prices[0] ? "solid" : "bordered"}
               className="capitalize border rounded"
               color="default"
             >
@@ -110,10 +109,10 @@ function Filters() {
           <PopoverContent>
             <div className="my-3">
               <Slider
-                step={50}
-                minValue={0}
-                maxValue={1000}
-                defaultValue={maxPrice}
+                aria-label="slider-price"
+                minValue={ordered_prices[0]}
+                maxValue={Math.round(ordered_prices[ordered_prices.length - 1])}
+                // defaultValue={maxPrice}
                 color="foreground"
                 formatOptions={{ style: "currency", currency: "EUR" }}
                 className="w-36"
@@ -122,7 +121,13 @@ function Filters() {
                   filler: "bg-slate-900",
                   thumb: "bg-slate-900 w-3 h-3 after:h-0",
                 }}
-                onChange={(price: any) => setMaxPrice(price)}
+                onChange={(price: any) => {
+                  setMaxPrice(price);
+                  console.log(Math.round(price));
+                }}
+                onChangeEnd={(price: any) =>
+                  dispatch(filterPrice(Math.round(price)))
+                }
               />
               <div
                 style={{
@@ -131,7 +136,7 @@ function Filters() {
                   justifyContent: "space-between",
                 }}
               >
-                <p>{0}€</p>
+                <p>{ordered_prices[0]}€</p>
                 <p>{maxPrice}€</p>
               </div>
             </div>
@@ -172,7 +177,10 @@ function Filters() {
             disallowEmptySelection
             selectionMode="single"
             selectedKeys={selectedKeys}
-            onSelectionChange={(keys: any) => {setSelectedKeys(keys); dispatch(order(keys.currentKey))}}
+            onSelectionChange={(keys: any) => {
+              setSelectedKeys(keys);
+              dispatch(order(keys.currentKey));
+            }}
           >
             <DropdownItem key="priceUp">Prix croissant</DropdownItem>
             <DropdownItem key="priceDown">Prix décroissant</DropdownItem>

@@ -9,7 +9,7 @@
       "composition": "Upper: Synthetic mesh, Midsole: EVA foam, Outsole: Rubber",
       "entretien": "Spot clean with a damp cloth",
       "colour": ["black"],
-      "collection": "Neon",
+      "collection": ["Neon"],
       "likes": 1253,
       "images": [
         "elevatex_pro_1.jpg",
@@ -29,7 +29,7 @@
       "composition": "Upper: Knit fabric, Midsole: React foam, Outsole: Carbon fiber",
       "entretien": "Machine washable in cold water",
       "colour": ["greenyellow"],
-      "collection": "Neon",
+      "collection": ["Neon"],
       "likes": 1785,
       "images": [
         "hyperstride_xt_1.jpg",
@@ -49,7 +49,7 @@
       "composition": "Upper: Synthetic leather, Midsole: Quantum foam, Outsole: Traction rubber",
       "entretien": "Wipe clean with a soft cloth",
       "colour": ["hotpink"],
-      "collection": "Neon",
+      "collection": ["Neon"],
       "likes": 925,
       "images": [
         "quantumsole_3000_1.jpg",
@@ -69,7 +69,7 @@
       "composition": "Upper: Breathable mesh, Midsole: Air cushioning, Outsole: High-traction rubber",
       "entretien": "Hand wash with mild detergent",
       "colour": ["white"],
-      "collection": "Neon",
+      "collection": ["Neon"],
       "likes": 2340,
       "images": [
         "aerotech_ultra_1.jpg",
@@ -89,7 +89,7 @@
       "composition": "Upper: Synthetic fabric, Midsole: Nova foam, Outsole: Durable rubber",
       "entretien": "Spot clean with a damp cloth",
       "colour": ["steelblue"],
-      "collection": "Platinum",
+      "collection": ["Platinum"],
       "likes": 3752,
       "images": [
         "novaglide_x_1.jpg",
@@ -109,7 +109,7 @@
       "composition": "Upper: Synthetic mesh, Midsole: EVA foam, Outsole: High-grip rubber",
       "entretien": "Spot clean with a damp cloth",
       "colour": ["dimgrey"],
-      "collection": "Platinum",
+      "collection": ["Platinum"],
       "likes": 2387,
       "images": [
         "synapsesprint_pro_1.jpg",
@@ -129,7 +129,7 @@
       "composition": "Upper: Synthetic material, Midsole: Dynamic cushioning, Outsole: High-grip rubber",
       "entretien": "Wipe clean with a damp cloth",
       "colour": ["dimgrey"],
-      "collection": "Platinum",
+      "collection": ["Platinum"],
       "likes": 2089,
       "images": [
         "xenoshift_evo_1.jpg",
@@ -149,7 +149,7 @@
       "composition": "Upper: Stretchable fabric, Midsole: Flex foam, Outsole: Flexible rubber",
       "entretien": "Machine washable in cold water",
       "colour": ["dimgrey"],
-      "collection": "Platinum",
+      "collection": ["Platinum"],
       "likes": 3110,
       "images": [
         "fusionflex_max_1.jpg",
@@ -169,7 +169,7 @@
       "composition": "Upper: Synthetic holographic material, Midsole: Energy foam, Outsole: Non-marking rubber",
       "entretien": "Wipe clean with a soft cloth",
       "colour": ["rebeccapurple"],
-      "collection": "Platinum",
+      "collection": ["Platinum"],
       "likes": 1623,
       "images": [
         "nebulakicks_pro_1.jpg",
@@ -189,7 +189,7 @@
       "composition": "Upper: Lightweight synthetic fabric, Midsole: Anti-gravity foam, Outsole: Lunar traction rubber",
       "entretien": "Spot clean with a damp cloth",
       "colour": ["black"],
-      "collection": "Platinum",
+      "collection": ["Platinum"],
       "likes": 1875,
       "images": [
         "cosmorun_elite_1.jpg",
@@ -209,7 +209,7 @@
       "composition": "Upper: Breathable synthetic mesh, Midsole: TechFlow foam, Outsole: High-traction rubber",
       "entretien": "Wipe clean with a damp cloth",
       "colour": ["white", "black"],
-      "collection": "Ride",
+      "collection": ["Ride"],
       "likes": 1697,
       "images": [
         "techflowx_2000_1_white.jpg",

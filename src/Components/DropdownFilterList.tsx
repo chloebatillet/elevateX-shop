@@ -10,6 +10,8 @@ import {
 
 import { findInArray } from "../hooks/findInArray";
 import { useState, useMemo } from "react";
+import { useAppDispatch } from "../hooks/redux";
+import { filterBy } from "../store/reducers/productsReducer";
 
 interface DropdownFilterListProps {
   list: string[];
@@ -17,6 +19,7 @@ interface DropdownFilterListProps {
 }
 
 function DropdownFilterList({ list, name }: DropdownFilterListProps) {
+  const dispatch = useAppDispatch();
   const [selectedKeysArr, setSelectedKeysArr] = useState(new Set([]));
 
   const selectedValue = useMemo(
@@ -47,6 +50,8 @@ function DropdownFilterList({ list, name }: DropdownFilterListProps) {
         // onSelectionChange={setSelectedKeysArr}
         onSelectionChange={(keys: any) => {
           setSelectedKeysArr(keys);
+          console.log("--------------");
+          dispatch(filterBy({ type: name, keys: [...keys] }));
         }}
       >
         {list.map((e: string) => (

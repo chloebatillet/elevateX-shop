@@ -7,7 +7,7 @@ export interface Product {
   composition: string;
   entretien: string;
   colour: string[];
-  collection: string;
+  collection: string[];
   likes: number;
   images: string[];
   "size-range": number[];
