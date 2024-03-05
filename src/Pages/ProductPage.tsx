@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 
@@ -26,11 +26,12 @@ function ProductPage() {
   const [sizeSelected, setSizeSelected] = useState(0);
   const [suggestions, setSuggestions] = useState<Product[]>([]);
   const productList = useAppSelector((state) => state.products.list);
+  const [alert, setAlert] = useState("");
 
   const item: Product = findItem(productList, "slug", slug);
 
   useEffect(() => {
-    scrollTo({ top: 0 });
+    // scrollTo({ top: 0 });
 
     const list: Product[] = productList.filter((e: Product) => {
       return e.slug !== slug;
@@ -49,6 +50,27 @@ function ProductPage() {
 
     setSuggestions(newList);
   }, [slug]);
+
+  const handleAddToCart = (
+    e:
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | FormEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
+    if (sizeSelected === 0) {
+      setAlert("Veuillez sélectionner votre taille");
+      return;
+    }
+
+    dispatch(
+      addToCart({
+        model: item.slug,
+        size: sizeSelected,
+        price: item.price,
+      })
+    );
+  };
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -92,12 +114,15 @@ function ProductPage() {
           <p className="mx-2 sm:mx-0">{item.description}</p>
 
           {/* Pointures */}
-          <div className="grid grid-cols-5 product-card-sizes bg-slate-50/[.7] w-full text-start transition-all z-10 mt-12">
+          <form
+            id="add-to-cart"
+            className="grid grid-cols-5 product-card-sizes bg-slate-50/[.7] w-full text-start transition-all z-10 mt-12"
+          >
             {item["size-range"].map((e, index) => {
               let found = item["size-available"].includes(e);
 
               return (
-                <button
+                <input
                   key={e + index}
                   type="button"
                   className={
@@ -107,13 +132,17 @@ function ProductPage() {
                       ? "text-center hover:bg-slate-100 cursor-pointer"
                       : "text-center text-slate-400 line-through decoration-1 cursor-default"
                   }
+                  onChange={() => setSizeSelected(e)}
                   onClick={() => setSizeSelected(e)}
-                >
-                  {e}
-                </button>
+                  value={e}
+                  form="add-to-cart"
+                ></input>
               );
             })}
-          </div>
+          </form>
+
+          {/* Alerte */}
+          <p className="w-full text-red-500">{alert}</p>
 
           {/* CTA */}
           <div className="w-full border grid grid-cols-1 sm:grid-cols-2 my-12 sticky top-0 bottom-0 z-40">
@@ -129,9 +158,10 @@ function ProductPage() {
               variant="solid"
               startContent={<ShoppingCartIcon className="h-6" />}
               className="border-0 text-white bg-slate-900"
-              onClick={() => {
-                dispatch(addToCart({ model: item.slug, size: sizeSelected, price: item.price }));
-              }}
+              onSubmit={(e) => handleAddToCart(e)}
+              onClick={(e) => handleAddToCart(e)}
+              type="submit"
+              form="add-to-cart"
             >
               Ajouter au panier
             </Button>

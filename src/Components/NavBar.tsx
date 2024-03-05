@@ -109,13 +109,7 @@ function NavBar() {
               backdrop="transparent"
             >
               <PopoverTrigger>
-                <Button
-                  // as={Link}
-                  // color="secondary"
-                  // href="/cart"
-                  variant="light"
-                  isIconOnly
-                >
+                <Button variant="light" isIconOnly>
                   <Badge
                     color="danger"
                     content={content.length}
@@ -129,8 +123,20 @@ function NavBar() {
               </PopoverTrigger>
 
               {/* Contenu du panier  */}
-              <PopoverContent className="rounded ">
-                <PopoverCart />
+              <PopoverContent className="rounded w-64">
+                {content.length ? (
+                  <PopoverCart />
+                ) : (
+                  <div className="grid grid-cols-1 justify-items-center text-center p-2 m-2">
+                    <p className="">Votre panier est vide</p>
+                    <Link
+                      href="/shop"
+                      className="text-xs text-slate-500 underline"
+                    >
+                      Commencer vos achats
+                    </Link>
+                  </div>
+                )}
               </PopoverContent>
             </Popover>
           </NavbarItem>

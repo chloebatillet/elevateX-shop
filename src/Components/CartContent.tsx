@@ -8,7 +8,7 @@ function CartContent() {
   const totalAmount: number[] = [];
 
   return (
-    <div className="px-1 py-2 w-64 flex flex-col gap-2">
+    <div className="px-1 py-2 flex flex-col gap-2 w-full">
       <ul>
         {content.map((e, index) => {
           const item = findItem(list, "slug", e?.model);
