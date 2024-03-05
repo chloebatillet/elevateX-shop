@@ -50,7 +50,7 @@ function CartContent() {
         size="sm"
         className="bg-slate-900 text-slate-50 w-full rounded"
       >
-        Commander
+        Voir mon panier
       </Button>
     </div>
   );
