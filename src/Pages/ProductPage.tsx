@@ -232,77 +232,83 @@ function ProductPage() {
         </div>
       </Wrapper>
 
-     {isPopoverOpen && <div
-        style={{ boxShadow: "0 0 18px #999" }}
-        className="z-50 w-full bg-slate-900/30 fixed bottom-0 h-screen"
-      >
-        <aside className="h-2/3 absolute bottom-0">
-          <button
-            type="button"
-            className="absolute -top-5 right-0 h-10 w-10 border border-slate-900 bg-slate-50 hover:bg-slate-900 hover:text-slate-50"
-            onClick={() => setIsPopoverOpen(false)}
-          >
-            <XMarkIcon className="" />
-          </button>
-          <div className="bg-slate-50 grid grid-cols-1 h-full overflow-y-auto gap-6 px-2 py-6">
-            <p className="text-3xl font-bold text-start">Ajouté au panier !</p>
+      {isPopoverOpen && (
+        <div
+          style={{ boxShadow: "0 0 18px #999" }}
+          className="z-50 w-full bg-slate-900/30 fixed bottom-0 h-screen"
+        >
+          <aside className="h-2/3 absolute bottom-0">
+            <button
+              type="button"
+              className="absolute -top-5 right-0 h-10 w-10 border border-slate-900 bg-slate-50 hover:bg-slate-900 hover:text-slate-50"
+              onClick={() => setIsPopoverOpen(false)}
+            >
+              <XMarkIcon className="" />
+            </button>
+            <div className="popover-content bg-slate-50 grid grid-cols-1 h-full overflow-y-auto gap-6 px-2 py-6">
+              <p className="text-3xl font-bold text-start">
+                Ajouté au panier !
+              </p>
 
-            <div className="grid grid-cols-5 gap-6">
-              <Image
-                radius="none"
-                src={`/productImg/${item.slug}/${item.images[0]}`}
-                className="bg-slate-500 col-span-1"
-              />
-              <div className="text-start col-span-2 ">
-                <p className="text-3xl font-semibold">{item.title}</p>
-                <p className="text-xl">{sizeSelected}</p>
-                <p className="text-2xl">{item.price}€</p>
+              <div className="grid grid-cols-5 gap-6">
+                <Image
+                  radius="none"
+                  src={`/productImg/${item.slug}/${item.images[0]}`}
+                  className="bg-slate-500 col-span-1"
+                />
+                <div className="text-start col-span-2 ">
+                  <p className="text-3xl font-semibold">{item.title}</p>
+                  <p className="text-xl">{sizeSelected}</p>
+                  <p className="text-2xl">{item.price}€</p>
+                </div>
+              </div>
+
+              <div>
+                <Button
+                  radius="none"
+                  className="border border-slate-900 bg-white text-xl w-full hover:text-white hover:bg-slate-900"
+                  onClick={() => setIsPopoverOpen(false)}
+                >
+                  Poursuivre mes achats
+                </Button>
+                <Button
+                  as={NextLink}
+                  href="/cart"
+                  variant="flat"
+                  radius="none"
+                  className="border border-slate-900 bg-slate-900 text-xl text-slate-50 w-full"
+                >
+                  Voir mon panier
+                </Button>
+              </div>
+
+              {/* Recommandations */}
+              <div className="text-start">
+                <h4 className="text-xl font-bold mb-3">
+                  Vous aimerez aussi...
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {suggestions.length > 1 &&
+                    suggestions.map((p: Product, index: number) => {
+                      return (
+                        <ProductCard
+                          key={index}
+                          title={p.title}
+                          price={p.price}
+                          slug={p.slug}
+                          likes={p.likes}
+                          images={p.images}
+                          size-range={p["size-range"]}
+                          size-available={p["size-available"]}
+                        />
+                      );
+                    })}
+                </div>
               </div>
             </div>
-
-            <div>
-              <Button
-                radius="none"
-                className="border border-slate-900 bg-white text-xl w-full hover:text-white hover:bg-slate-900"
-                onClick={() => setIsPopoverOpen(false)}
-              >
-                Poursuivre mes achats
-              </Button>
-              <Button
-                as={NextLink}
-                href="/cart"
-                variant="flat"
-                radius="none"
-                className="border border-slate-900 bg-slate-900 text-xl text-slate-50 w-full"
-              >
-                Voir mon panier
-              </Button>
-            </div>
-
-            {/* Recommandations */}
-            <div className="text-start">
-              <h4 className="text-xl font-bold mb-3">Vous aimerez aussi...</h4>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {suggestions.length > 1 &&
-                  suggestions.map((p: Product, index: number) => {
-                    return (
-                      <ProductCard
-                        key={index}
-                        title={p.title}
-                        price={p.price}
-                        slug={p.slug}
-                        likes={p.likes}
-                        images={p.images}
-                        size-range={p["size-range"]}
-                        size-available={p["size-available"]}
-                      />
-                    );
-                  })}
-              </div>
-            </div>
-          </div>
-        </aside>
-      </div>}
+          </aside>
+        </div>
+      )}
     </>
   );
 }

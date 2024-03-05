@@ -47,3 +47,12 @@ body {
   }
 }
 
+.popover-content::-webkit-scrollbar {
+  display: none;
+}
+.popover-content {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
