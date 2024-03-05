@@ -37,7 +37,7 @@ function ProductPage() {
   const item: Product = findItem(productList, "slug", slug);
 
   useEffect(() => {
-    // scrollTo({ top: 0 });
+    scrollTo({ top: 0 });
 
     const list: Product[] = productList.filter((e: Product) => {
       return e.slug !== slug;
@@ -291,16 +291,18 @@ function ProductPage() {
                   {suggestions.length > 1 &&
                     suggestions.map((p: Product, index: number) => {
                       return (
-                        <ProductCard
-                          key={index}
-                          title={p.title}
-                          price={p.price}
-                          slug={p.slug}
-                          likes={p.likes}
-                          images={p.images}
-                          size-range={p["size-range"]}
-                          size-available={p["size-available"]}
-                        />
+                        <div onClick={() => setIsPopoverOpen(false)}>
+                          <ProductCard
+                            key={index}
+                            title={p.title}
+                            price={p.price}
+                            slug={p.slug}
+                            likes={p.likes}
+                            images={p.images}
+                            size-range={p["size-range"]}
+                            size-available={p["size-available"]}
+                          />
+                        </div>
                       );
                     })}
                 </div>
