@@ -2,7 +2,6 @@ import { Image } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { ProductCardProps } from "../@types";
 
-
 function ProductCard({
   title,
   price,
@@ -21,7 +20,8 @@ function ProductCard({
           src={`/productImg/${slug}/${images[0]}`}
         />
 
-        <div className="grid grid-cols-10 product-card-sizes absolute bg-slate-50/[.7] w-full text-start -bottom-6 transition-all z-10">
+        {/* Sizes */}
+        <div className="grid grid-cols-5 sm:grid-cols-10 product-card-sizes absolute bg-slate-50/[.7] w-full text-start -bottom-12 sm:-bottom-6 transition-all z-10">
           {sizeRange.map((e, index) => {
             let found = sizeAvailable.includes(e);
 
@@ -37,9 +37,7 @@ function ProductCard({
         </div>
       </div>
       <div className="grid grid-cols-1 ml-2 mt-1">
-        {likes > 2000 && (
-          <p className="text-violet-500 text-start">TENDANCE</p>
-        )}
+        {likes > 2000 && <p className="text-violet-500 text-start">TENDANCE</p>}
         <h3 className="text-start font-bold">{title}</h3>
         <p className="text-slate-500 text-start">{price}€</p>
       </div>

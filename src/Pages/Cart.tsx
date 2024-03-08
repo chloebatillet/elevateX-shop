@@ -9,7 +9,9 @@ function Basket() {
           <div>
             <CartContent />
           </div>
-
+        </section>
+        
+        <section>
           <div>
             <div>Info livraison</div>
             <div>Info paiement</div>

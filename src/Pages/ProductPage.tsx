@@ -83,7 +83,7 @@ function ProductPage() {
   return (
     <>
       <Wrapper marginTop="150px" marginBottom="50px">
-        <Breadcrumbs className="mb-3">
+        <Breadcrumbs className="mb-3 ml-2">
           <BreadcrumbItem>
             <Link to={"/shop"}>Shop</Link>
           </BreadcrumbItem>
@@ -207,7 +207,7 @@ function ProductPage() {
           </div>
         </div>
 
-        <Divider className="mt-12 mb-6 border" />
+        <Divider className="mt-12 mb-6" style={{height: "0.5px"}} />
 
         {/* Recommandations */}
         <div className="text-start">
