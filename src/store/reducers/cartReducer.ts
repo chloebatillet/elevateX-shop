@@ -1,11 +1,5 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
-// import { Product } from "../../@types";
-
-interface CartItem {
-  model: string;
-  size: number;
-  price: number;
-}
+import { CartItem } from "../../@types";
 
 interface CartState {
   content: (CartItem | null)[];
@@ -26,12 +20,8 @@ const cartReducer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addToCart, (state, action) => {
-      console.log("------------");
-
-      //state.content = [state.content, action.payload]
       state.content.push(action.payload);
       sessionStorage.setItem("cart", JSON.stringify(state.content));
-      console.log(state.content);
     });
   },
 });

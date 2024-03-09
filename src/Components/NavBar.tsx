@@ -20,7 +20,7 @@ import ModalTemplate from "./ModalTemplate";
 import logo from "/favicon.ico";
 import UserIcon from "./Icons/UserIcon";
 import CartIcon from "./Icons/CartIcon";
-import PopoverCart from "./CartContent";
+import PopoverCart from "./PopoverCart";
 import { useAppSelector } from "../hooks/redux";
 
 function NavBar() {

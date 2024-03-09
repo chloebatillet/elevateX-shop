@@ -28,3 +28,13 @@ export interface ProductCardProps {
   "size-range": number[];
   "size-available": number[];
 }
+
+interface CartState {
+  content: (CartItem | null)[];
+}
+
+interface CartItem {
+  model: string;
+  size: number;
+  price: number;
+}

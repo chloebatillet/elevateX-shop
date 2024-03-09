@@ -207,7 +207,7 @@ function ProductPage() {
           </div>
         </div>
 
-        <Divider className="mt-12 mb-6" style={{height: "0.5px"}} />
+        <Divider className="mt-12 mb-6" style={{ height: "0.5px" }} />
 
         {/* Recommandations */}
         <div className="text-start">
@@ -291,7 +291,10 @@ function ProductPage() {
                   {suggestions.length > 1 &&
                     suggestions.map((p: Product, index: number) => {
                       return (
-                        <div onClick={() => setIsPopoverOpen(false)}>
+                        <div
+                          key={p.title + index}
+                          onClick={() => setIsPopoverOpen(false)}
+                        >
                           <ProductCard
                             key={index}
                             title={p.title}
