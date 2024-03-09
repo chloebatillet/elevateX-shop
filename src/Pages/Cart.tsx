@@ -12,18 +12,21 @@ import CartContent from "../Components/CartContent";
 import Wrapper from "../Components/Wapper";
 import { getTotal } from "../hooks/getTotal";
 import { useAppSelector } from "../hooks/redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const deliveryOptionsList = [
-  { value: "En magasin", price: 0 },
-  { value: "En point relais", price: 3.25 },
-  { value: "A votre domicile", price: 4.95 },
+  { value: "magasin", name: "En magasin", price: 0 },
+  { value: "point-relais", name: "En point relais", price: 3.25 },
+  { value: "domicile", name: "A votre domicile", price: 4.95 },
 ];
 
 function Cart() {
   const { content } = useAppSelector((state) => state.cart);
   const totalAmount = getTotal(content);
-  const [deliveryOption, setDeliveryOption] = useState("0");
+  const [deliveryOption, setDeliveryOption] = useState(
+    deliveryOptionsList[0].value
+  );
+  const freeDeliveryPrice = 300;
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -83,10 +86,14 @@ function Cart() {
                   return (
                     <Radio
                       key={e.value}
-                      value={e.price.toString()}
-                      description={`${e.price}€`}
+                      value={e.value}
+                      description={
+                        totalAmount! > freeDeliveryPrice
+                          ? "gratuit"
+                          : `${e.price}€`
+                      }
                     >
-                      {e.value}
+                      {e.name}
                     </Radio>
                   );
                 })}
@@ -94,7 +101,7 @@ function Cart() {
             </AccordionItem>
           </Accordion>
           <div className="px-2">
-            <Divider />
+            <Divider className="my-2" />
             <h2 className="text-lg">Récapitulatif</h2>
             <div className="flex flex-col">
               <div className="flex justify-between text-sm text-slate-400">
@@ -107,19 +114,30 @@ function Cart() {
               </div>
               <div className="flex justify-between text-sm text-slate-400">
                 <p>Livraison</p>
-                <p>{totalAmount! > 200 ? "gratuit" : deliveryOption + "€"}</p>
+                <p>
+                  {totalAmount! > freeDeliveryPrice
+                    ? "gratuit"
+                    : deliveryOptionsList.find(
+                        (e) => e.value === deliveryOption
+                      )!.price + "€"}
+                </p>
               </div>
             </div>
             <div className="flex justify-between">
               <p>Total TTC</p>
               <p className="text-end">
-                {getTotal(content)! + Number(deliveryOption)}€
+                {totalAmount! > freeDeliveryPrice
+                  ? getTotal(content)
+                  : getTotal(content)! +
+                    deliveryOptionsList.find((e) => e.value === deliveryOption)!
+                      .price}
+                €
               </p>
             </div>
           </div>
 
           <div>
-            <Divider />
+            <Divider className="my-2" />
             <h2 className="text-lg">Méthodes de paiement acceptées</h2>
           </div>
         </div>

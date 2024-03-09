@@ -14,15 +14,22 @@ export const initialState: CartState = {
 // Liste des actions
 export const addToCart = createAction<CartItem>("cart/addToCart");
 
+export const removeFromCart = createAction<CartItem>("cart/removeFromCart");
+
 const cartReducer = createSlice({
   name: "cartReducer",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addToCart, (state, action) => {
-      state.content.push(action.payload);
-      sessionStorage.setItem("cart", JSON.stringify(state.content));
-    });
+    builder
+      .addCase(addToCart, (state, action) => {
+        state.content.push(action.payload);
+        sessionStorage.setItem("cart", JSON.stringify(state.content));
+      })
+      .addCase(removeFromCart, (state, action) => {
+        state.content.push(action.payload);
+        sessionStorage.setItem("cart", JSON.stringify(state.content));
+      });
   },
 });
 
