@@ -11,8 +11,9 @@ import {
 import CartContent from "../Components/CartContent";
 import Wrapper from "../Components/Wapper";
 import { getTotal } from "../hooks/getTotal";
-import { useAppSelector } from "../hooks/redux";
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useState } from "react";
+import { submitCode } from "../store/reducers/cartReducer";
 
 const deliveryOptionsList = [
   { value: "magasin", name: "En magasin", price: 0 },
@@ -21,12 +22,16 @@ const deliveryOptionsList = [
 ];
 
 function Cart() {
-  const { content } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const { content, promoMessage, reduction } = useAppSelector(
+    (state) => state.cart
+  );
   const totalAmount = getTotal(content);
   const [deliveryOption, setDeliveryOption] = useState(
     deliveryOptionsList[0].value
   );
   const freeDeliveryPrice = 300;
+  // const promo = 0;
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -62,14 +67,23 @@ function Cart() {
               aria-label="code-promo"
               title="Ajouter un code promo"
             >
-              <Input
-                isClearable
-                size="sm"
-                type="text"
-                variant="flat"
-                placeholder="Entrer le code"
-                className="max-w-xs"
-              />
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  // Voir ensuite pour de vrais codes
+                  dispatch(submitCode(""));
+                }}
+              >
+                <Input
+                  isClearable
+                  size="sm"
+                  type="text"
+                  variant="flat"
+                  placeholder="Entrer le code"
+                  className="max-w-xs"
+                />
+                <p className="text-sm text-green-500 mt-1">{promoMessage}</p>
+              </form>
             </AccordionItem>
             <AccordionItem
               key="2"
@@ -122,13 +136,20 @@ function Cart() {
                       )!.price + "€"}
                 </p>
               </div>
+              {reduction > 0 && (
+                <div className="flex justify-between text-sm text-slate-400">
+                  <p>Réduction</p>
+                  <p>-{reduction}€</p>
+                </div>
+              )}
             </div>
             <div className="flex justify-between">
               <p>Total TTC</p>
               <p className="text-end">
                 {totalAmount! > freeDeliveryPrice
-                  ? getTotal(content)
-                  : getTotal(content)! +
+                  ? getTotal(content)! - reduction
+                  : getTotal(content)! -
+                    reduction +
                     deliveryOptionsList.find((e) => e.value === deliveryOption)!
                       .price}
                 €
