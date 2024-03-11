@@ -8,7 +8,7 @@ import {
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
-import CartContent from "../Components/CartContent";
+import CartContentFullpage from "../Components/CartContentFullpage";
 import Wrapper from "../Components/Wapper";
 import { getTotal } from "../hooks/getTotal";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
@@ -31,7 +31,6 @@ function Cart() {
     deliveryOptionsList[0].value
   );
   const freeDeliveryPrice = 300;
-  // const promo = 0;
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -47,7 +46,7 @@ function Cart() {
       </h1>
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <CartContent />
+          <CartContentFullpage />
           <Button
             as={Link}
             color="default"
