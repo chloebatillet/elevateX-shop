@@ -12,7 +12,7 @@ export const initialState: CartState = {
     ? JSON.parse(sessionStorage.getItem("cart")!)
     : [],
   promoMessage: "",
-  reduction: 0,
+  reduction: Number(sessionStorage.getItem("codeReduction")) || 0,
 };
 
 // Liste des actions
@@ -46,6 +46,7 @@ const cartReducer = createSlice({
       .addCase(submitCode, (state) => {
         state.reduction = 10;
         state.promoMessage = "Code appliqué !";
+        sessionStorage.setItem("codeReduction", state.reduction.toString())
       });
   },
 });

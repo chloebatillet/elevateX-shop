@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   Accordion,
   AccordionItem,
@@ -8,33 +10,59 @@ import {
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
+
 import CartContentFullpage from "../Components/CartContentFullpage";
 import Wrapper from "../Components/Wapper";
+import PayementMethods from "../Components/PaymentMethods";
+
 import { getTotal } from "../hooks/getTotal";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { useState } from "react";
 import { submitCode } from "../store/reducers/cartReducer";
-
-const deliveryOptionsList = [
-  { value: "magasin", name: "En magasin", price: 0 },
-  { value: "point-relais", name: "En point relais", price: 3.25 },
-  { value: "domicile", name: "A votre domicile", price: 4.95 },
-];
+import {
+  validateCart,
+} from "../store/reducers/orderReducer";
 
 function Cart() {
   const dispatch = useAppDispatch();
   const { content, promoMessage, reduction } = useAppSelector(
     (state) => state.cart
   );
-  const totalAmount = getTotal(content);
+
+  const freeDeliveryPrice = 300;
+  const subTotal = getTotal(content);
+
+  const deliveryOptionsList = [
+    {
+      value: "magasin",
+      name: "En magasin",
+      price: subTotal! > freeDeliveryPrice ? 0 : 0,
+    },
+    {
+      value: "point-relais",
+      name: "En point relais",
+      price: subTotal! > freeDeliveryPrice ? 0 : 3.25,
+    },
+    {
+      value: "domicile",
+      name: "A votre domicile",
+      price: subTotal! > freeDeliveryPrice ? 0 : 4.95,
+    },
+  ];
+
   const [deliveryOption, setDeliveryOption] = useState(
     deliveryOptionsList[0].value
   );
-  const freeDeliveryPrice = 300;
+
+  const total =
+    subTotal! > freeDeliveryPrice
+      ? getTotal(content)! - reduction
+      : getTotal(content)! -
+        reduction +
+        deliveryOptionsList.find((e) => e.value === deliveryOption)!.price;
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
-      <h1 className="uppercase font-bold text-start ml-1 text-xl">
+      <h1 className="uppercase font-bold text-start ml-1 text-2xl">
         Mon panier{" "}
         <span className="font-normal">
           (
@@ -50,10 +78,33 @@ function Cart() {
           <Button
             as={Link}
             color="default"
-            href="/cart"
+            href="/cart/pass-your-order"
             variant="flat"
             size="sm"
             className="bg-slate-900 text-slate-50 w-full rounded"
+            onClick={() => {
+
+              if (content.length > 0) {
+                dispatch(
+                  validateCart({
+                    subTotal: subTotal,
+                    total: total,
+                    deliveryOption: deliveryOption,
+                  })
+                );
+              }
+            }}
+            onSubmit={() => {
+              if (content.length > 0) {
+                dispatch(
+                  validateCart({
+                    subTotal: subTotal,
+                    total: total,
+                    deliveryOption: deliveryOption,
+                  })
+                );
+              }
+            }}
           >
             Finaliser mon achat
           </Button>
@@ -101,7 +152,7 @@ function Cart() {
                       key={e.value}
                       value={e.value}
                       description={
-                        totalAmount! > freeDeliveryPrice
+                        subTotal! > freeDeliveryPrice
                           ? "gratuit"
                           : `${e.price}€`
                       }
@@ -123,12 +174,12 @@ function Cart() {
                     ? content.length + " articles"
                     : content.length + " article"}
                 </p>
-                <p>{totalAmount}€</p>
+                <p>{subTotal}€</p>
               </div>
               <div className="flex justify-between text-sm text-slate-400">
                 <p>Livraison</p>
                 <p>
-                  {totalAmount! > freeDeliveryPrice
+                  {subTotal! > freeDeliveryPrice
                     ? "gratuit"
                     : deliveryOptionsList.find(
                         (e) => e.value === deliveryOption
@@ -144,22 +195,11 @@ function Cart() {
             </div>
             <div className="flex justify-between">
               <p>Total TTC</p>
-              <p className="text-end">
-                {totalAmount! > freeDeliveryPrice
-                  ? getTotal(content)! - reduction
-                  : getTotal(content)! -
-                    reduction +
-                    deliveryOptionsList.find((e) => e.value === deliveryOption)!
-                      .price}
-                €
-              </p>
+              <p className="text-end">{total}€</p>
             </div>
           </div>
 
-          <div>
-            <Divider className="my-2" />
-            <h2 className="text-lg">Méthodes de paiement acceptées</h2>
-          </div>
+          <PayementMethods />
         </div>
       </section>
     </Wrapper>

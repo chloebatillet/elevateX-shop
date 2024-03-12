@@ -6,7 +6,7 @@ import App from "./App.tsx";
 import Home from "./Pages/Home";
 import Shop from "./Pages/Shop.jsx";
 import ProductPage from "./Pages/ProductPage.jsx";
-import Basket from "./Pages/Cart.js";
+import Cart from "./Pages/Cart.js";
 import Checkout from "./Pages/Checkout.jsx";
 import ThankYou from "./Pages/ThankYou.jsx";
 import Account from "./Pages/Account.jsx";
@@ -28,7 +28,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="/shop" element={<Shop />} />
       <Route path="/shop/:slug" element={<ProductPage />} />
-      <Route path="/cart" element={<Basket />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/cart/pass-your-order" element={<Checkout />} />
       <Route path="/cart/pass-your-order/success" element={<ThankYou />} />
       <Route path="/account" element={<Account />} />

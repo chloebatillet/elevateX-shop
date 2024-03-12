@@ -37,8 +37,9 @@ function CartContentFullpage() {
                       radius="full"
                       isIconOnly
                       className="text-tiny"
+                      size="sm"
                     >
-                      <HeartIcon className="w-6" />
+                      <HeartIcon className="w-4" />
                     </Button>
 
                     <Button
@@ -46,6 +47,7 @@ function CartContentFullpage() {
                       radius="full"
                       isIconOnly
                       className="text-tiny"
+                      size="sm"
                       onClick={(ev) => {
                         ev.preventDefault();
                         if (e !== null) {
@@ -53,7 +55,7 @@ function CartContentFullpage() {
                         }
                       }}
                     >
-                      <TrashIcon className="w-6" />
+                      <TrashIcon className="w-4" />
                     </Button>
                   </div>
                 </div>
@@ -64,7 +66,7 @@ function CartContentFullpage() {
       </ul>
 
       <div className="grid grid-cols-2">
-        <span>Total</span>
+        <span className="text-start">Sous-total</span>
         <span className="text-end">{getTotal(content)}€</span>
       </div>
     </div>
