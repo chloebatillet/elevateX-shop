@@ -1,7 +1,7 @@
 import { Image } from "@nextui-org/react";
 import { useAppSelector } from "../hooks/redux";
 import { findItem } from "../hooks/findItem";
-import { getTotal } from "../hooks/getTotal";
+import { getSubtotal } from "../hooks/getSubtotal";
 import { Link } from "react-router-dom";
 
 function CartContent() {
@@ -37,7 +37,7 @@ function CartContent() {
 
       <div className="grid grid-cols-2">
         <span>Total</span>
-        <span className="text-end">{getTotal(content)}€</span>
+        <span className="text-end">{getSubtotal(content)}€</span>
       </div>
     </div>
   );

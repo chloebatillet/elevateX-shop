@@ -8,7 +8,17 @@ interface ContactDetails {
   postalCode: number;
   city: string;
   country: string;
-  telephone: number;
+  telephone?: number;
+  email: string;
+}
+
+interface DeliveryDetails {
+  name: string;
+  address: string;
+  postalCode: number;
+  city: string;
+  country: string;
+  telephone?: number;
   email: string;
 }
 
@@ -18,8 +28,10 @@ interface Order {
   deliveryDateEstimated: string;
   deliveryMode: string;
   subtotal: number;
+  reduction: number;
   total: number;
   contactDetails: ContactDetails;
+  deliveryDetails: DeliveryDetails;
   paymentMode: string;
 }
 
@@ -35,13 +47,17 @@ export const initialState: OrdersState = {
   currentOrder: sessionStorage.getItem("currentOrder")
     ? JSON.parse(sessionStorage.getItem("currentOrder")!)
     : {
-        content: sessionStorage.getItem("cart"),
+        content: sessionStorage.getItem("cart")
+          ? JSON.parse(sessionStorage.getItem("cart")!)
+          : [],
         dateOrder: "",
         deliveryDateEstimated: "",
         deliveryMode: "",
         subtotal: null,
+        reduction: null,
         total: null,
         contactDetails: {},
+        deliveryDetails: {},
         paymentMode: "",
       },
 };
@@ -49,9 +65,15 @@ export const initialState: OrdersState = {
 // Liste des actions
 export const validateCart = createAction<{
   subTotal: number | undefined;
+  reduction: number;
   total: number;
   deliveryOption: string;
 }>("orders/validate-cart");
+
+export const selectDeliveryOption = createAction<{
+  deliveryOption: string;
+  totalUpdated: number;
+}>("orders/select-delivery-option");
 
 // export const submitCode = createAction<string>("cart/submit-code");
 
@@ -60,16 +82,26 @@ const OrdersState = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(validateCart, (state, action) => {
-      state.currentOrder.subtotal = action.payload.subTotal!;
-      state.currentOrder.total = action.payload.total;
-      state.currentOrder.deliveryMode = action.payload.deliveryOption;
-      sessionStorage.setItem(
-        "currentOrder",
-        JSON.stringify(state.currentOrder)
-      );
-    });
-    // .addCase(submitCode, (state) => {});
+    builder
+      .addCase(validateCart, (state, action) => {
+        state.currentOrder.subtotal = action.payload.subTotal!;
+        state.currentOrder.reduction = action.payload.reduction;
+        state.currentOrder.total = action.payload.total;
+        state.currentOrder.deliveryMode = action.payload.deliveryOption;
+        sessionStorage.setItem(
+          "currentOrder",
+          JSON.stringify(state.currentOrder)
+        );
+      })
+      .addCase(selectDeliveryOption, (state, action) => {
+        state.currentOrder.deliveryMode = action.payload.deliveryOption;
+        state.currentOrder.total = action.payload.totalUpdated;
+        
+        sessionStorage.setItem(
+          "currentOrder",
+          JSON.stringify(state.currentOrder)
+        );
+      });
   },
 });
 

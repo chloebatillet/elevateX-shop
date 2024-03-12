@@ -15,12 +15,10 @@ import CartContentFullpage from "../Components/CartContentFullpage";
 import Wrapper from "../Components/Wapper";
 import PayementMethods from "../Components/PaymentMethods";
 
-import { getTotal } from "../hooks/getTotal";
+import { getSubtotal } from "../hooks/getSubtotal";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { submitCode } from "../store/reducers/cartReducer";
-import {
-  validateCart,
-} from "../store/reducers/orderReducer";
+import { validateCart } from "../store/reducers/orderReducer";
 
 function Cart() {
   const dispatch = useAppDispatch();
@@ -29,7 +27,7 @@ function Cart() {
   );
 
   const freeDeliveryPrice = 300;
-  const subTotal = getTotal(content);
+  const subTotal = getSubtotal(content);
 
   const deliveryOptionsList = [
     {
@@ -55,8 +53,8 @@ function Cart() {
 
   const total =
     subTotal! > freeDeliveryPrice
-      ? getTotal(content)! - reduction
-      : getTotal(content)! -
+      ? getSubtotal(content)! - reduction
+      : getSubtotal(content)! -
         reduction +
         deliveryOptionsList.find((e) => e.value === deliveryOption)!.price;
 
@@ -83,11 +81,11 @@ function Cart() {
             size="sm"
             className="bg-slate-900 text-slate-50 w-full rounded"
             onClick={() => {
-
               if (content.length > 0) {
                 dispatch(
                   validateCart({
                     subTotal: subTotal,
+                    reduction: reduction,
                     total: total,
                     deliveryOption: deliveryOption,
                   })
@@ -99,6 +97,7 @@ function Cart() {
                 dispatch(
                   validateCart({
                     subTotal: subTotal,
+                    reduction: reduction,
                     total: total,
                     deliveryOption: deliveryOption,
                   })

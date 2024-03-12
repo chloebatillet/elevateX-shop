@@ -1,7 +1,7 @@
 import { Button, Image } from "@nextui-org/react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { findItem } from "../hooks/findItem";
-import { getTotal } from "../hooks/getTotal";
+import { getSubtotal } from "../hooks/getSubtotal";
 import { Link } from "react-router-dom";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { removeFromCart } from "../store/reducers/cartReducer";
@@ -67,7 +67,7 @@ function CartContentFullpage() {
 
       <div className="grid grid-cols-2">
         <span className="text-start">Sous-total</span>
-        <span className="text-end">{getTotal(content)}€</span>
+        <span className="text-end">{getSubtotal(content)}€</span>
       </div>
     </div>
   );
