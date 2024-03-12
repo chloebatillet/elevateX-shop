@@ -2,16 +2,14 @@ import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import Wrapper from "../Components/Wapper";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { Button } from "@nextui-org/button";
-import {
-  Radio,
-  RadioGroup,
-} from "@nextui-org/react";
-import { useState } from "react";
+import { Divider, Radio, RadioGroup } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import { selectDeliveryOption } from "../store/reducers/orderReducer";
 import FormContactDetails from "../Components/FormContactDetails";
 import FormDeliveryDetailsHome from "../Components/FormDeliveryDetailsHome";
 import { getTotal } from "../hooks/getTotal";
 import FormDeliveryDetailsShop from "../Components/FormDeliveryDetailsShop";
+import { getDate } from "../hooks/getDate";
 
 function Checkout() {
   const dispatch = useAppDispatch();
@@ -26,20 +24,37 @@ function Checkout() {
       value: "magasin",
       name: "En magasin",
       price: subtotal! > freeDeliveryPrice ? 0 : 0,
+      delay: 2,
     },
     {
       value: "point-relais",
       name: "En point relais",
       price: subtotal! > freeDeliveryPrice ? 0 : 3.25,
+      delay: 3,
     },
     {
       value: "domicile",
       name: "A votre domicile",
       price: subtotal! > freeDeliveryPrice ? 0 : 4.95,
+      delay: 4,
     },
   ];
 
   const [deliveryOption, setDeliveryOption] = useState(deliveryMode);
+  
+  const today = new Date();
+  
+  const [deliveryDate, setDeliveryDate] = useState(getDate(today, deliveryOptionsList.find((e) => e.value === deliveryMode)!.delay));
+
+  useEffect(() => {
+    setDeliveryDate(
+      getDate(
+        today,
+        deliveryOptionsList.find((e) => e.value === deliveryMode)!.delay
+      )
+    );
+  }, [deliveryMode])
+  
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -90,14 +105,18 @@ function Checkout() {
                             totalUpdated: newTotal,
                           })
                         );
+                        
                       }}
-                      description={
-                        subtotal! > freeDeliveryPrice
-                          ? "gratuit"
-                          : `${e.price}€`
-                      }
+                      classNames={{
+                        base: "max-w-full",
+                        labelWrapper: "w-full",
+                      }}
+                      description={`${e.delay} jours`}
                     >
-                      {e.name}
+                      <p className="grid grid-cols-2">
+                        <span>{e.name}</span>
+                        <span className="text-end">{e.price}€</span>
+                      </p>
                     </Radio>
                   );
                 })}
@@ -112,7 +131,7 @@ function Checkout() {
               {deliveryOption === "domicile" && <FormDeliveryDetailsHome />}
             </AccordionItem>
           </Accordion>
-          <Button radius="sm" className="bg-slate-900 text-slate-50 w-full">
+          <Button radius="sm" className="bg-slate-900 text-slate-50 w-full mt-8">
             Payer <span className="font-bold">{totalUpdated}€</span>
           </Button>
         </div>
@@ -153,6 +172,10 @@ function Checkout() {
               <p className="text-end">{totalUpdated}€</p>
             </div>
           </div>
+
+          <Divider />
+
+          <p>Livraison prévue le {deliveryDate}</p>
         </div>
       </form>
       <div></div>
