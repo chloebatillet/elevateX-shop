@@ -6,7 +6,7 @@ import {
   Button,
   Divider,
   Input,
-  Link,
+  Link as NextLink,
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
@@ -19,6 +19,7 @@ import { getSubtotal } from "../hooks/getSubtotal";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { submitCode } from "../store/reducers/cartReducer";
 import { validateCart } from "../store/reducers/orderReducer";
+import { Link } from "react-router-dom";
 
 function Cart() {
   const dispatch = useAppDispatch();
@@ -70,44 +71,54 @@ function Cart() {
           )
         </span>
       </h1>
+
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <CartContentFullpage />
-          <Button
-            as={Link}
-            color="default"
-            href="/cart/pass-your-order"
-            variant="flat"
-            size="sm"
-            className="bg-slate-900 text-slate-50 w-full rounded"
-            onClick={() => {
-              if (content.length > 0) {
-                dispatch(
-                  validateCart({
-                    subTotal: subTotal,
-                    reduction: reduction,
-                    total: total,
-                    deliveryOption: deliveryOption,
-                  })
-                );
-              }
-            }}
-            onSubmit={() => {
-              if (content.length > 0) {
-                dispatch(
-                  validateCart({
-                    subTotal: subTotal,
-                    reduction: reduction,
-                    total: total,
-                    deliveryOption: deliveryOption,
-                  })
-                );
-              }
-            }}
-          >
-            Finaliser mon achat
-          </Button>
-        </div>
+        {content.length > 0 ? (
+          <div>
+            <CartContentFullpage />
+            <Button
+              as={NextLink}
+              color="default"
+              href="/cart/pass-your-order"
+              variant="flat"
+              size="sm"
+              className="bg-slate-900 text-slate-50 w-full rounded"
+              onClick={() => {
+                if (content.length > 0) {
+                  dispatch(
+                    validateCart({
+                      subTotal: subTotal,
+                      reduction: reduction,
+                      total: total,
+                      deliveryOption: deliveryOption,
+                    })
+                  );
+                }
+              }}
+              onSubmit={() => {
+                if (content.length > 0) {
+                  dispatch(
+                    validateCart({
+                      subTotal: subTotal,
+                      reduction: reduction,
+                      total: total,
+                      deliveryOption: deliveryOption,
+                    })
+                  );
+                }
+              }}
+            >
+              Finaliser mon achat
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col mt-16 mx-2 text-xl text-start">
+            <p className="">Votre panier est vide</p>
+            <Link to="/shop" className="text-lg text-slate-500 underline">
+              Commencer vos achats
+            </Link>
+          </div>
+        )}
 
         <div className="text-slate-900 text-start">
           <Accordion defaultExpandedKeys={["2"]} isCompact={false}>
