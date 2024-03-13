@@ -10,6 +10,7 @@ import FormDeliveryDetailsHome from "../Components/FormDeliveryDetailsHome";
 import { getTotal } from "../hooks/getTotal";
 import FormDeliveryDetailsShop from "../Components/FormDeliveryDetailsShop";
 import { getDate } from "../hooks/getDate";
+import CartContentLines from "../Components/CartContentLines";
 
 function Checkout() {
   const dispatch = useAppDispatch();
@@ -41,10 +42,15 @@ function Checkout() {
   ];
 
   const [deliveryOption, setDeliveryOption] = useState(deliveryMode);
-  
+
   const today = new Date();
-  
-  const [deliveryDate, setDeliveryDate] = useState(getDate(today, deliveryOptionsList.find((e) => e.value === deliveryMode)!.delay));
+
+  const [deliveryDate, setDeliveryDate] = useState(
+    getDate(
+      today,
+      deliveryOptionsList.find((e) => e.value === deliveryMode)!.delay
+    )
+  );
 
   useEffect(() => {
     setDeliveryDate(
@@ -53,8 +59,7 @@ function Checkout() {
         deliveryOptionsList.find((e) => e.value === deliveryMode)!.delay
       )
     );
-  }, [deliveryMode])
-  
+  }, [deliveryMode]);
 
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
@@ -105,7 +110,6 @@ function Checkout() {
                             totalUpdated: newTotal,
                           })
                         );
-                        
                       }}
                       classNames={{
                         base: "max-w-full",
@@ -131,7 +135,10 @@ function Checkout() {
               {deliveryOption === "domicile" && <FormDeliveryDetailsHome />}
             </AccordionItem>
           </Accordion>
-          <Button radius="sm" className="bg-slate-900 text-slate-50 w-full mt-8">
+          <Button
+            radius="sm"
+            className="bg-slate-900 text-slate-50 w-full mt-8"
+          >
             Payer <span className="font-bold">{totalUpdated}€</span>
           </Button>
         </div>
@@ -173,12 +180,17 @@ function Checkout() {
             </div>
           </div>
 
-          <Divider />
+          <Divider className="my-2" />
 
-          <p>Livraison prévue le {deliveryDate}</p>
+          <aside className="flex flex-col gap-4">
+            <p className="text-start font-semibold uppercase">
+              Livraison prévue le {deliveryDate}
+            </p>
+
+            <CartContentLines />
+          </aside>
         </div>
       </form>
-      <div></div>
     </Wrapper>
   );
 }

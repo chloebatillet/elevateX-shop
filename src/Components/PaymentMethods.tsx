@@ -10,7 +10,7 @@ function PayementMethods() {
   ];
 
   return (
-    <div>
+    <div className="mx-2">
       <Divider className="my-2" />
       <h2 className="text-lg">Méthodes de paiement acceptées</h2>
 
