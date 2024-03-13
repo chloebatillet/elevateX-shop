@@ -102,7 +102,7 @@ function Checkout() {
         }}
       >
         {/* Forms  */}
-        <div className="w-full md:w-2/3">
+        <section className="w-full md:w-2/3">
           <Accordion defaultExpandedKeys={["1", "2"]}>
             <AccordionItem
               title="Coordonnées"
@@ -174,55 +174,57 @@ function Checkout() {
           >
             Payer <span className="font-bold">{totalUpdated}€</span>
           </Button>
-        </div>
+        </section>
 
         {/* Récap */}
-        <div className="w-full md:w-1/3 px-2">
-          <h2 className="font-bold text-xl uppercase text-start">
-            Récapitulatif
-          </h2>
-          <div className="flex flex-col">
-            <div className="flex justify-between text-sm text-slate-400">
-              <p>
-                {content.length > 1
-                  ? content.length + " articles"
-                  : content.length + " article"}
-              </p>
-              <p>{subtotal}€</p>
-            </div>
-            <div className="flex justify-between text-sm text-slate-400">
-              <p>
-                Livraison <span>({deliveryMode})</span>
-              </p>
-              <p>
-                {subtotal! > freeDeliveryPrice
-                  ? "gratuit"
-                  : deliveryOptionsList.find((e) => e.value === deliveryMode)!
-                      .price + "€"}
-              </p>
-            </div>
-            {reduction > 0 && (
+        <section className="w-full md:w-1/3 px-2">
+          <div className="sticky top-24">
+            <h2 className="font-bold text-xl uppercase text-start">
+              Récapitulatif
+            </h2>
+            <div className="flex flex-col">
               <div className="flex justify-between text-sm text-slate-400">
-                <p>Réduction</p>
-                <p>-{reduction}€</p>
+                <p>
+                  {content.length > 1
+                    ? content.length + " articles"
+                    : content.length + " article"}
+                </p>
+                <p>{subtotal}€</p>
               </div>
-            )}
-            <div className="flex justify-between">
-              <p>Total TTC</p>
-              <p className="text-end">{totalUpdated}€</p>
+              <div className="flex justify-between text-sm text-slate-400">
+                <p>
+                  Livraison <span>({deliveryMode})</span>
+                </p>
+                <p>
+                  {subtotal! > freeDeliveryPrice
+                    ? "gratuit"
+                    : deliveryOptionsList.find((e) => e.value === deliveryMode)!
+                        .price + "€"}
+                </p>
+              </div>
+              {reduction > 0 && (
+                <div className="flex justify-between text-sm text-slate-400">
+                  <p>Réduction</p>
+                  <p>-{reduction}€</p>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <p>Total TTC</p>
+                <p className="text-end">{totalUpdated}€</p>
+              </div>
             </div>
+
+            <Divider className="my-2" />
+
+            <aside className="flex flex-col gap-4">
+              <p className="text-start font-semibold uppercase">
+                Livraison prévue le {deliveryDate}
+              </p>
+
+              <CartContentLines />
+            </aside>
           </div>
-
-          <Divider className="my-2" />
-
-          <aside className="flex flex-col gap-4">
-            <p className="text-start font-semibold uppercase">
-              Livraison prévue le {deliveryDate}
-            </p>
-
-            <CartContentLines />
-          </aside>
-        </div>
+        </section>
       </form>
     </Wrapper>
   );
