@@ -2,24 +2,22 @@ import { createAction, createSlice } from "@reduxjs/toolkit";
 import { CartItem } from "../../@types";
 
 interface ContactDetails {
-  firstname: string;
-  name: string;
-  address: string;
-  postalCode: number;
-  city: string;
-  country: string;
-  telephone?: number;
-  email: string;
+  clientFirstname: string;
+  clientLastname: string;
+  clientAddress: string;
+  clientPostcode: number;
+  clientCity: string;
+  clientCountry: string;
+  clientTelephone?: number;
+  clientEmail: string;
 }
 
 interface DeliveryDetails {
-  name: string;
-  address: string;
-  postalCode: number;
-  city: string;
-  country: string;
-  telephone?: number;
-  email: string;
+  deliveryName?: string;
+  deliveryAddress: string;
+  deliveryPostalCode: number;
+  deliveryCity: string;
+  deliveryCountry: string;
 }
 
 interface Order {
@@ -75,6 +73,10 @@ export const selectDeliveryOption = createAction<{
   totalUpdated: number;
 }>("orders/select-delivery-option");
 
+export const validateOrderDetails = createAction<any>(
+  "orders/validate-order-details"
+);
+
 // export const submitCode = createAction<string>("cart/submit-code");
 
 const OrdersState = createSlice({
@@ -96,11 +98,17 @@ const OrdersState = createSlice({
       .addCase(selectDeliveryOption, (state, action) => {
         state.currentOrder.deliveryMode = action.payload.deliveryOption;
         state.currentOrder.total = action.payload.totalUpdated;
-        
+
         sessionStorage.setItem(
           "currentOrder",
           JSON.stringify(state.currentOrder)
         );
+      })
+      .addCase(validateOrderDetails, (state, action) => {
+        console.log(action.payload);
+
+        state.currentOrder.contactDetails = action.payload.contactDetails;
+        state.currentOrder.deliveryDetails = action.payload.deliveryDetails;
       });
   },
 });

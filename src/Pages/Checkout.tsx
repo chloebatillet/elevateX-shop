@@ -4,16 +4,22 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { Button } from "@nextui-org/button";
 import { Divider, Radio, RadioGroup } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { selectDeliveryOption } from "../store/reducers/orderReducer";
+import {
+  selectDeliveryOption,
+  validateOrderDetails,
+} from "../store/reducers/orderReducer";
 import FormContactDetails from "../Components/FormContactDetails";
 import FormDeliveryDetailsHome from "../Components/FormDeliveryDetailsHome";
 import { getTotal } from "../hooks/getTotal";
 import FormDeliveryDetailsShop from "../Components/FormDeliveryDetailsShop";
 import { getDate } from "../hooks/getDate";
 import CartContentLines from "../Components/CartContentLines";
+import { ContactDetails, DeliveryDetails } from "../@types";
 
 function Checkout() {
   const dispatch = useAppDispatch();
+  const [contactDetails, setContactDetails] = useState<ContactDetails>();
+  const [deliveryDetails, setDeliveryDetails] = useState<DeliveryDetails>();
   const { content, subtotal, reduction, total, deliveryMode } = useAppSelector(
     (state) => state.order.currentOrder
   );
@@ -61,12 +67,28 @@ function Checkout() {
     );
   }, [deliveryMode]);
 
+  const submitAll = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    console.log("coucou");
+
+    dispatch(
+      validateOrderDetails({
+        contactDetails: contactDetails,
+        deliveryDetails: deliveryDetails,
+      })
+    );
+  };
+
+  useEffect(() => {
+    console.log(contactDetails);
+  }, [contactDetails, deliveryDetails]);
+
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
       <h1 className="text-3xl font-bold uppercase text-start px-2 mb-8">
         Passer commande
       </h1>
-      <form
+      <div
         id="order-details-form"
         className="flex flex-col-reverse md:flex-row gap-4"
       >
@@ -79,7 +101,7 @@ function Checkout() {
               aria-label="contact-details"
               classNames={{ title: "font-bold uppercase text-xl" }}
             >
-              <FormContactDetails />
+              <FormContactDetails setContactDetails={setContactDetails} />
             </AccordionItem>
             <AccordionItem
               title="Options de livraison"
@@ -93,6 +115,7 @@ function Checkout() {
               <RadioGroup
                 value={deliveryOption}
                 onValueChange={setDeliveryOption}
+                name="deliveryMode"
                 color="default"
                 className="text-start"
               >
@@ -126,18 +149,30 @@ function Checkout() {
                 })}
               </RadioGroup>
 
-              {deliveryOption === "magasin" && <FormDeliveryDetailsShop />}
+              {deliveryOption === "magasin" && (
+                <FormDeliveryDetailsShop
+                  setDeliveryDetails={setDeliveryDetails}
+                />
+              )}
               {deliveryOption === "point-relais" && (
                 <p className="text-red-500 text-start">
                   Service Point-relais momentanément indisponible
                 </p>
               )}
-              {deliveryOption === "domicile" && <FormDeliveryDetailsHome />}
+              {deliveryOption === "domicile" && (
+                <FormDeliveryDetailsHome
+                  setDeliveryDetails={setDeliveryDetails}
+                />
+              )}
             </AccordionItem>
           </Accordion>
           <Button
             radius="sm"
             className="bg-slate-900 text-slate-50 w-full mt-8"
+            type="submit"
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              submitAll(e)
+            }
           >
             Payer <span className="font-bold">{totalUpdated}€</span>
           </Button>
@@ -190,7 +225,7 @@ function Checkout() {
             <CartContentLines />
           </aside>
         </div>
-      </form>
+      </div>
     </Wrapper>
   );
 }

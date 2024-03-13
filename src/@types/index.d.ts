@@ -38,3 +38,22 @@ interface CartItem {
   size: number;
   price: number;
 }
+
+interface ContactDetails {
+  clientFirstname: string;
+  clientLastname: string;
+  clientAddress: string;
+  clientPostcode: number;
+  clientCity: string;
+  clientCountry: string;
+  clientTelephone?: number;
+  clientEmail: string;
+}
+
+interface DeliveryDetails {
+  deliveryName?: string;
+  deliveryAddress: string;
+  deliveryPostalCode: number;
+  deliveryCity: string;
+  deliveryCountry: string;
+}
