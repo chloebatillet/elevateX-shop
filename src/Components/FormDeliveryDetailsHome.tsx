@@ -6,30 +6,41 @@ function FormDeliveryDetailsHome() {
       <Input
         type="text"
         size="sm"
-        required
-        isRequired
+        name="deliveryAddress"
+        // required
+        // isRequired
         label="Adresse"
         className="grid-cols-subgrid col-span-2"
       ></Input>
       <Input
         type="text"
         size="sm"
+        name="deliveryComplement"
         label="Complement"
         className="grid-cols-subgrid col-span-2"
       ></Input>
       <Input
         type="text"
         size="sm"
-        required
-        isRequired
+        name="deliveryPostcode"
+        // required
+        // isRequired
         label="Code postal"
       ></Input>
-      <Input type="text" size="sm" required isRequired label="Ville"></Input>
       <Input
         type="text"
         size="sm"
-        required
-        isRequired
+        name="deliveryCity"
+        // required
+        // isRequired
+        label="Ville"
+      ></Input>
+      <Input
+        type="text"
+        size="sm"
+        name="deliveryCountry"
+        // required
+        // isRequired
         label="Pays"
         className="grid-cols-subgrid col-span-2 mb-4"
       ></Input>

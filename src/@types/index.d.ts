@@ -29,12 +29,33 @@ export interface ProductCardProps {
   "size-available": number[];
 }
 
-interface CartState {
+export interface CartState {
   content: (CartItem | null)[];
 }
 
-interface CartItem {
+export interface CartItem {
   model: string;
   size: number;
   price: number;
+}
+
+export interface ContactDetails {
+  firstname: string;
+  name: string;
+  address: string;
+  postalCode: number;
+  city: string;
+  country: string;
+  telephone?: number;
+  email: string;
+}
+
+export interface DeliveryDetails {
+  name?: string;
+  address: string;
+  postalCode: number;
+  city: string;
+  country: string;
+  telephone?: number;
+  email: string;
 }

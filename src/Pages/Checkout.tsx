@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { Button } from "@nextui-org/button";
 import { Divider, Radio, RadioGroup } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { selectDeliveryOption } from "../store/reducers/orderReducer";
+import { selectDeliveryOption, validateOrderDetails } from "../store/reducers/orderReducer";
 import FormContactDetails from "../Components/FormContactDetails";
 import FormDeliveryDetailsHome from "../Components/FormDeliveryDetailsHome";
 import { getTotal } from "../hooks/getTotal";
@@ -61,6 +61,34 @@ function Checkout() {
     );
   }, [deliveryMode]);
 
+  function splitFormData(formData: FormData) {
+    const clientDetails: Record<string, string | number> = {};
+    const deliveryDetails: Record<string, string | number> = {};
+
+    for (let [key, value] of formData) {
+      if (key.startsWith("client")) {
+        clientDetails[key] = value as string | number;
+      } else if (key.startsWith("delivery")) {
+        deliveryDetails[key] = value as string | number;
+      }
+    }
+
+    return { clientDetails, deliveryDetails };
+  }
+
+  const submitAll = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const { clientDetails, deliveryDetails } = splitFormData(formData);
+
+    dispatch(validateOrderDetails({
+      clientDetails: clientDetails,
+      deliveryDetails: deliveryDetails,
+    }));
+  };
+
   return (
     <Wrapper marginTop="150px" marginBottom="50px">
       <h1 className="text-3xl font-bold uppercase text-start px-2 mb-8">
@@ -69,6 +97,9 @@ function Checkout() {
       <form
         id="order-details-form"
         className="flex flex-col-reverse md:flex-row gap-4"
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          submitAll(e);
+        }}
       >
         {/* Forms  */}
         <div className="w-full md:w-2/3">
@@ -95,6 +126,7 @@ function Checkout() {
                 onValueChange={setDeliveryOption}
                 color="default"
                 className="text-start"
+                name="deliveryMode"
               >
                 {deliveryOptionsList.map((e) => {
                   return (
@@ -138,6 +170,7 @@ function Checkout() {
           <Button
             radius="sm"
             className="bg-slate-900 text-slate-50 w-full mt-8"
+            type="submit"
           >
             Payer <span className="font-bold">{totalUpdated}€</span>
           </Button>

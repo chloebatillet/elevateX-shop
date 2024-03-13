@@ -48,6 +48,7 @@ function FormDeliveryDetailsShop() {
         items={magasins}
         label="Choisissez un magasin"
         placeholder="Ville"
+        name="deliveryName"
         className="max-w-xs justify-self-start"
         onChange={(e) => {
           setCity(magasins.find((el) => el.name === e.target.value));
@@ -68,7 +69,8 @@ function FormDeliveryDetailsShop() {
             <Input
               type="text"
               size="sm"
-              required
+              name="deliveryAddress"
+              //required
               label="Adresse"
               value={city?.address}
               isReadOnly
@@ -76,7 +78,8 @@ function FormDeliveryDetailsShop() {
             <Input
               type="text"
               size="sm"
-              required
+              name="deliveryPostcode"
+              //required
               label="Code postal"
               value={city?.postCode}
               isReadOnly
@@ -84,7 +87,8 @@ function FormDeliveryDetailsShop() {
             <Input
               type="text"
               size="sm"
-              required
+              name="deliveryCity"
+              // required
               label="Ville"
               value={city?.city}
               isReadOnly
@@ -92,7 +96,8 @@ function FormDeliveryDetailsShop() {
             <Input
               type="text"
               size="sm"
-              required
+              name="deliveryCountry"
+              // required
               label="Pays"
               value={city?.country}
               isReadOnly

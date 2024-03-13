@@ -13,7 +13,7 @@ interface ContactDetails {
 }
 
 interface DeliveryDetails {
-  name: string;
+  name?: string;
   address: string;
   postalCode: number;
   city: string;
@@ -75,6 +75,8 @@ export const selectDeliveryOption = createAction<{
   totalUpdated: number;
 }>("orders/select-delivery-option");
 
+export const validateOrderDetails = createAction<any>("orders/validate-order-details");
+
 // export const submitCode = createAction<string>("cart/submit-code");
 
 const OrdersState = createSlice({
@@ -101,7 +103,16 @@ const OrdersState = createSlice({
           "currentOrder",
           JSON.stringify(state.currentOrder)
         );
-      });
+      })
+      .addCase(validateOrderDetails, (state, action) => {
+        state.currentOrder.contactDetails =  action.payload.clientDetails
+        state.currentOrder.deliveryDetails = action.payload.deliveryDetails;
+
+        sessionStorage.setItem(
+          "currentOrder",
+          JSON.stringify(state.currentOrder)
+        );
+      })
   },
 });
 
