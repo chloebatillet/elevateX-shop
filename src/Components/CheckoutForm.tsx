@@ -6,14 +6,14 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux.ts";
+import { sendPayment } from "../store/reducers/orderReducer.ts";
 
 function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
-
-  const [message, setMessage] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-
+  const dispatch = useAppDispatch();
+  const { isProcessing, message } = useAppSelector((state) => state.order);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,21 +22,7 @@ function CheckoutForm() {
       return;
     }
 
-    setIsProcessing(true);
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: "http://localhost:5173/cart/pass-your-order/success",
-      },
-    });
-
-    if (error && error.message) {
-      setMessage(error.message);
-      console.error(error);
-    }
-
-    setIsProcessing(false);
+    dispatch(sendPayment({ stripe, elements }));
   };
 
   return (

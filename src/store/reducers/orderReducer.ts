@@ -1,5 +1,6 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CartItem } from "../../@types";
+import { Stripe, StripeElements } from "@stripe/stripe-js";
 
 interface ContactDetails {
   firstname: string;
@@ -38,6 +39,9 @@ interface Order {
 interface OrdersState {
   passedOrders: Order[];
   currentOrder: Order;
+  clientSecret: string | null;
+  isProcessing: boolean;
+  message: string | null;
 }
 
 export const initialState: OrdersState = {
@@ -60,6 +64,9 @@ export const initialState: OrdersState = {
         deliveryDetails: {},
         paymentMode: "",
       },
+  clientSecret: null,
+  isProcessing: false,
+  message: null,
 };
 
 // Liste des actions
@@ -75,9 +82,60 @@ export const selectDeliveryOption = createAction<{
   totalUpdated: number;
 }>("orders/select-delivery-option");
 
-export const validateOrderDetails = createAction<any>("orders/validate-order-details");
+export const validateOrderDetails = createAction<any>(
+  "orders/validate-order-details"
+);
 
-// export const submitCode = createAction<string>("cart/submit-code");
+export const createPaymentIntent = createAsyncThunk(
+  "orders/create-payment-intent",
+  async (total: number) => {
+    try {
+      const response = await fetch(
+        "http://localhost:5252/create-payment-intent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ total: total }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de la récupération du client secret");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log(error);
+      throw new Error(error.response.data.error);
+    }
+  }
+);
+
+export const sendPayment = createAsyncThunk(
+  "orders/send-payment",
+  async ({
+    stripe,
+    elements,
+  }: {
+    stripe: Stripe;
+    elements: StripeElements;
+  }) => {
+    try {
+      await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: "http://localhost:5173/cart/pass-your-order/success",
+        },
+      });
+    } catch (error: any) {
+      console.log(error);
+      throw new Error(error.response.data.error);
+    }
+  }
+);
 
 const OrdersState = createSlice({
   name: "ordersReducer",
@@ -98,14 +156,14 @@ const OrdersState = createSlice({
       .addCase(selectDeliveryOption, (state, action) => {
         state.currentOrder.deliveryMode = action.payload.deliveryOption;
         state.currentOrder.total = action.payload.totalUpdated;
-        
+
         sessionStorage.setItem(
           "currentOrder",
           JSON.stringify(state.currentOrder)
         );
       })
       .addCase(validateOrderDetails, (state, action) => {
-        state.currentOrder.contactDetails =  action.payload.clientDetails
+        state.currentOrder.contactDetails = action.payload.clientDetails;
         state.currentOrder.deliveryDetails = action.payload.deliveryDetails;
 
         sessionStorage.setItem(
@@ -113,6 +171,31 @@ const OrdersState = createSlice({
           JSON.stringify(state.currentOrder)
         );
       })
+      .addCase(createPaymentIntent.fulfilled, (state, action) => {
+        state.clientSecret = action.payload.clientSecret;
+      })
+      .addCase(sendPayment.pending, (state) => {
+        state.isProcessing = true;
+      })
+      .addCase(sendPayment.fulfilled, (state) => {
+        state.isProcessing = false;
+        state.passedOrders = [...state.passedOrders, state.currentOrder];
+        state.currentOrder = initialState.currentOrder;
+
+        //! La redirection empêche les changements de state
+   
+        sessionStorage.setItem(
+          "currentOrder",
+          JSON.stringify(state.currentOrder)
+        );
+        sessionStorage.setItem(
+          "passedOrder",
+          JSON.stringify(state.passedOrders)
+        );
+      })
+      .addCase(sendPayment.rejected, (state, action) => {
+        state.message = action.error.message!;
+      });
   },
 });
 
