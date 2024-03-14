@@ -5,7 +5,6 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux.ts";
 import { sendPayment } from "../store/reducers/orderReducer.ts";
 
