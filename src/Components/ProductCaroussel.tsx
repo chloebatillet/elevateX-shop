@@ -3,6 +3,7 @@ import ProductCard from "./ProductCard";
 
 function ProductCaroussel({ arr, length }: { arr: Product[]; length: number }) {
   const width = length * 300;
+  
   return (
     <div className="home-product-caroussel w-inherit mb-12 py-4 overflow-x-scroll">
       <div className={`w-[${width}px] flex flex-row gap-2`}>
