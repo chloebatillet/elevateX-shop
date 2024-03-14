@@ -20,6 +20,8 @@ import ModalTemplate from "./ModalTemplate";
 import logo from "/favicon.ico";
 import UserIcon from "./Icons/UserIcon";
 import CartIcon from "./Icons/CartIcon";
+import PopoverCart from "./PopoverCart";
+import { useAppSelector } from "../hooks/redux";
 
 function NavBar() {
   const menuItems = [
@@ -42,6 +44,7 @@ function NavBar() {
   ];
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { content } = useAppSelector((state) => state.cart);
 
   return (
     <>
@@ -89,7 +92,7 @@ function NavBar() {
           <NavbarItem>
             <Button
               as={Link}
-              color="secondary"
+              // color="secondary"
               href="#"
               variant="light"
               isIconOnly
@@ -106,16 +109,10 @@ function NavBar() {
               backdrop="transparent"
             >
               <PopoverTrigger>
-                <Button
-                  // as={Link}
-                  color="secondary"
-                  // href="/cart"
-                  variant="light"
-                  isIconOnly
-                >
+                <Button variant="light" isIconOnly>
                   <Badge
                     color="danger"
-                    content={2}
+                    content={content.length}
                     shape="circle"
                     showOutline={false}
                     size="sm"
@@ -124,19 +121,22 @@ function NavBar() {
                   </Badge>
                 </Button>
               </PopoverTrigger>
-              <PopoverContent>
-                <div className="px-1 py-2">
-                  <div className="text-small font-bold">Popover Content</div>
-                  <div className="text-tiny">This is the popover content</div>
-                  <Button
-                    as={Link}
-                    color="secondary"
-                    href="/cart"
-                    variant="flat"
-                  >
-                    Commander
-                  </Button>
-                </div>
+
+              {/* Contenu du panier  */}
+              <PopoverContent className="rounded w-64">
+                {content.length ? (
+                  <PopoverCart />
+                ) : (
+                  <div className="grid grid-cols-1 justify-items-center text-center p-2 m-2">
+                    <p className="">Votre panier est vide</p>
+                    <Link
+                      href="/shop"
+                      className="text-xs text-slate-500 underline"
+                    >
+                      Commencer vos achats
+                    </Link>
+                  </div>
+                )}
               </PopoverContent>
             </Popover>
           </NavbarItem>

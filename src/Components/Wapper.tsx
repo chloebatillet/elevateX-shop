@@ -15,6 +15,7 @@ function Wapper({ children, marginTop, marginBottom }: WrapperProps) {
         maxWidth: "1000px",
         marginTop: `${marginTop}`,
         marginBottom: `${marginBottom}`,
+        // minHeight: "100vh"
       }}
     >
       {children}
