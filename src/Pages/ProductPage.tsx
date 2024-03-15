@@ -22,7 +22,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Product } from "../@types";
-import { addToCart } from "../store/reducers/cartReducer";
+import { addToCart } from "../store/reducers/orderReducer";
 
 function ProductPage() {
   const dispatch = useAppDispatch();

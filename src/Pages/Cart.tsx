@@ -17,14 +17,14 @@ import PayementMethods from "../Components/PaymentMethods";
 
 import { getSubtotal } from "../hooks/getSubtotal";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { submitCode } from "../store/reducers/cartReducer";
+import { submitCode } from "../store/reducers/orderReducer";
 import { validateCart } from "../store/reducers/orderReducer";
 import { Link } from "react-router-dom";
 
 function Cart() {
   const dispatch = useAppDispatch();
-  const { content, promoMessage, reduction } = useAppSelector(
-    (state) => state.cart
+  const { content, reduction } = useAppSelector(
+    (state) => state.order.currentOrder
   );
 
   const freeDeliveryPrice = 300;
@@ -130,7 +130,7 @@ function Cart() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // Voir ensuite pour de vrais codes
+                  //* Voir ensuite pour de vrais codes
                   dispatch(submitCode(""));
                 }}
               >
@@ -141,8 +141,11 @@ function Cart() {
                   variant="flat"
                   placeholder="Entrer le code"
                   className="max-w-xs"
+                  isDisabled={content.length === 0 || reduction > 0}
                 />
-                <p className="text-sm text-green-500 mt-1">{promoMessage}</p>
+                {reduction !== 0 && (
+                  <p className="text-sm text-green-500 mt-1">Code appliqué !</p>
+                )}
               </form>
             </AccordionItem>
             <AccordionItem
@@ -151,7 +154,6 @@ function Cart() {
               title="Options de livraison"
             >
               <RadioGroup
-                // label="Selectionner un mode de livraison"
                 value={deliveryOption}
                 onValueChange={setDeliveryOption}
                 color="default"

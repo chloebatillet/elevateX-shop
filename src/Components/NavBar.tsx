@@ -44,7 +44,7 @@ function NavBar() {
   ];
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { content } = useAppSelector((state) => state.cart);
+  const { content } = useAppSelector((state) => state.order.currentOrder);
 
   return (
     <>

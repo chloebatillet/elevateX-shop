@@ -67,7 +67,7 @@ const emptyCurrentOrder: Order = {
     postalCode: 0,
     city: "",
     country: "",
-    email: ""
+    email: "",
   },
   paymentMode: "",
 };
@@ -85,6 +85,12 @@ export const initialState: OrdersState = {
 };
 
 // Liste des actions
+export const addToCart = createAction<CartItem>("orders/add-to-cart");
+
+export const removeFromCart = createAction<number>("orders/remove-from-cart");
+
+export const submitCode = createAction<string>("orders/submit-code");
+
 export const validateCart = createAction<{
   subTotal: number | undefined;
   reduction: number;
@@ -161,6 +167,34 @@ const OrdersState = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(addToCart, (state, action) => {
+        state.currentOrder.content.push(action.payload);
+        sessionStorage.setItem(
+          "currentOrder",
+          JSON.stringify(state.currentOrder)
+        );
+      })
+      .addCase(removeFromCart, (state, action) => {
+        state.currentOrder.content = state.currentOrder.content.filter(
+          (_, i) => i !== action.payload
+        );
+
+        if (state.currentOrder.content.length === 0) {
+          state.currentOrder.reduction = 0;
+        }
+
+        sessionStorage.setItem(
+          "currentOrder",
+          JSON.stringify(state.currentOrder)
+        );
+      })
+      .addCase(submitCode, (state) => {
+        state.currentOrder.reduction = 10;
+        sessionStorage.setItem(
+          "currentOrder",
+          JSON.stringify(state.currentOrder)
+        );
+      })
       .addCase(validateCart, (state, action) => {
         state.currentOrder.subtotal = action.payload.subTotal!;
         state.currentOrder.reduction = action.payload.reduction;

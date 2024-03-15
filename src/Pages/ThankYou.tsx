@@ -1,5 +1,7 @@
 import { Button, Link } from "@nextui-org/react";
 import Wrapper from '../Components/Wapper.tsx'
+
+
 function ThankYou() {
   return (
     <Wrapper marginTop="250px">

@@ -26,7 +26,7 @@ function CheckoutForm() {
     const payment = await dispatch(sendPayment({ stripe, elements }));
 
     if (payment.payload === "succeeded") {
-      navigate("/");
+      navigate("/cart/pass-your-order/success");
     }
   };
 
