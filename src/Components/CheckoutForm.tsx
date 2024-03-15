@@ -7,12 +7,14 @@ import {
 } from "@stripe/react-stripe-js";
 import { useAppDispatch, useAppSelector } from "../hooks/redux.ts";
 import { sendPayment } from "../store/reducers/orderReducer.ts";
+import { useNavigate } from "react-router-dom";
 
 function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useAppDispatch();
   const { isProcessing, message } = useAppSelector((state) => state.order);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,7 +23,11 @@ function CheckoutForm() {
       return;
     }
 
-    dispatch(sendPayment({ stripe, elements }));
+    const payment = await dispatch(sendPayment({ stripe, elements }));
+
+    if (payment.payload === "succeeded") {
+      navigate("/");
+    }
   };
 
   return (

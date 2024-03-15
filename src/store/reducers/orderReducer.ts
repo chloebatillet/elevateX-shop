@@ -44,26 +44,41 @@ interface OrdersState {
   message: string | null;
 }
 
+const emptyCurrentOrder: Order = {
+  content: [],
+  dateOrder: "",
+  deliveryDateEstimated: "",
+  deliveryMode: "",
+  subtotal: 0,
+  reduction: 0,
+  total: 0,
+  contactDetails: {
+    firstname: "",
+    name: "",
+    address: "",
+    postalCode: 0,
+    city: "",
+    country: "",
+    telephone: 0,
+    email: "",
+  },
+  deliveryDetails: {
+    address: "",
+    postalCode: 0,
+    city: "",
+    country: "",
+    email: ""
+  },
+  paymentMode: "",
+};
+
 export const initialState: OrdersState = {
   passedOrders: sessionStorage.getItem("passedOrders")
     ? JSON.parse(sessionStorage.getItem("passedOrders")!)
     : [],
   currentOrder: sessionStorage.getItem("currentOrder")
     ? JSON.parse(sessionStorage.getItem("currentOrder")!)
-    : {
-        content: sessionStorage.getItem("cart")
-          ? JSON.parse(sessionStorage.getItem("cart")!)
-          : [],
-        dateOrder: "",
-        deliveryDateEstimated: "",
-        deliveryMode: "",
-        subtotal: null,
-        reduction: null,
-        total: null,
-        contactDetails: {},
-        deliveryDetails: {},
-        paymentMode: "",
-      },
+    : emptyCurrentOrder,
   clientSecret: null,
   isProcessing: false,
   message: null,
@@ -124,12 +139,15 @@ export const sendPayment = createAsyncThunk(
     elements: StripeElements;
   }) => {
     try {
-      await stripe.confirmPayment({
+      const response = await stripe.confirmPayment({
         elements,
         confirmParams: {
           return_url: "http://localhost:5173/cart/pass-your-order/success",
         },
+        redirect: "if_required",
       });
+
+      return response.paymentIntent?.status;
     } catch (error: any) {
       console.log(error);
       throw new Error(error.response.data.error);
@@ -178,20 +196,19 @@ const OrdersState = createSlice({
         state.isProcessing = true;
       })
       .addCase(sendPayment.fulfilled, (state) => {
-        state.isProcessing = false;
         state.passedOrders = [...state.passedOrders, state.currentOrder];
-        state.currentOrder = initialState.currentOrder;
-
-        //! La redirection empêche les changements de state
-   
-        sessionStorage.setItem(
-          "currentOrder",
-          JSON.stringify(state.currentOrder)
-        );
         sessionStorage.setItem(
           "passedOrder",
           JSON.stringify(state.passedOrders)
         );
+        state.currentOrder = emptyCurrentOrder;
+
+        // empty sessionStorage
+        sessionStorage.removeItem("currentOrder");
+        sessionStorage.removeItem("cart");
+
+        state.clientSecret = null;
+        state.isProcessing = false;
       })
       .addCase(sendPayment.rejected, (state, action) => {
         state.message = action.error.message!;

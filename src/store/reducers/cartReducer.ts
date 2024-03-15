@@ -35,13 +35,6 @@ const cartReducer = createSlice({
       .addCase(removeFromCart, (state, action) => {
         state.content = state.content.filter((_, i) => i !== action.payload);
         sessionStorage.setItem("cart", JSON.stringify(state.content));
-
-        // const test = state.content.filter(
-        //   (e) =>
-        //     e?.model !== action.payload.model && e?.size === action.payload.size
-        // );
-
-        // test.map((e) => console.log(e?.model));
       })
       .addCase(submitCode, (state) => {
         state.reduction = 10;
