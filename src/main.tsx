@@ -9,7 +9,7 @@ import ProductPage from "./Pages/ProductPage.jsx";
 import Cart from "./Pages/Cart.js";
 import Order from "./Pages/Order.js";
 import Checkout from "./Pages/Checkout.tsx";
-import ThankYou from "./Pages/ThankYou.jsx";
+import CheckoutSuccess from "./Pages/CheckoutSuccess.js";
 import Account from "./Pages/Account.jsx";
 
 import store from "./store/index.ts";
@@ -22,6 +22,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import CheckoutFailed from "./Pages/CheckoutFailed.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,7 +33,14 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<Cart />} />
       <Route path="/cart/pass-your-order" element={<Order />} />
       <Route path="/cart/checkout" element={<Checkout />} />
-      <Route path="/cart/pass-your-order/success" element={<ThankYou />} />
+      <Route
+        path="/cart/pass-your-order/success"
+        element={<CheckoutSuccess />}
+      />
+      <Route
+        path="/cart/pass-your-order/error"
+        element={<CheckoutFailed />}
+      />
       <Route path="/account" element={<Account />} />
     </Route>
   )

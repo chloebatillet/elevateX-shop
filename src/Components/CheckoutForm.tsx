@@ -20,13 +20,22 @@ function CheckoutForm() {
     e.preventDefault();
 
     if (!stripe || !elements) {
+      console.log("pas stripe ni elements");
       return;
     }
 
-    const payment = await dispatch(sendPayment({ stripe, elements }));
+    //! corriger le type
+    const payment: any = await dispatch(sendPayment({ stripe, elements }));
+    console.log(payment);
 
-    if (payment.payload === "succeeded") {
+    if (payment.payload.paymentIntent && payment.payload.paymentIntent.status === "succeeded") {
       navigate("/cart/pass-your-order/success");
+    } 
+
+    if(payment.payload.error) {
+      navigate("/cart/pass-your-order/error", {
+        state: { message: payment.payload.error.message },
+      });
     }
   };
 

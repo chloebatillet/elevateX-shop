@@ -112,7 +112,7 @@ export const createPaymentIntent = createAsyncThunk(
   async (total: number) => {
     try {
       const response = await fetch(
-        "http://localhost:5252/create-payment-intent",
+        "https://elevatex-backoffice.vercel.app/create-payment-intent",
         {
           method: "POST",
           headers: {
@@ -153,7 +153,7 @@ export const sendPayment = createAsyncThunk(
         redirect: "if_required",
       });
 
-      return response.paymentIntent?.status;
+      return response;
     } catch (error: any) {
       console.log(error);
       throw new Error(error.response.data.error);
