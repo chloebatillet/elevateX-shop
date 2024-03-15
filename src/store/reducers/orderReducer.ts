@@ -230,9 +230,9 @@ const OrdersState = createSlice({
         state.isProcessing = true;
       })
       .addCase(sendPayment.fulfilled, (state) => {
-        state.passedOrders = [...state.passedOrders, state.currentOrder];
+        state.passedOrders.push(state.currentOrder);
         sessionStorage.setItem(
-          "passedOrder",
+          "passedOrders",
           JSON.stringify(state.passedOrders)
         );
         state.currentOrder = emptyCurrentOrder;
