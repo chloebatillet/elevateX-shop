@@ -3,7 +3,7 @@ import { getSubtotal } from "../hooks/getSubtotal";
 import CartContentLines from "./CartContentLines";
 
 function CartContent() {
-  const { content } = useAppSelector((state) => state.cart);
+  const { content } = useAppSelector((state) => state.order.currentOrder);
 
   return (
     <div className="px-1 py-2 flex flex-col gap-2 w-full">

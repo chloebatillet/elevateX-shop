@@ -8,9 +8,7 @@ import ProductCaroussel from "../Components/ProductCaroussel";
 
 function Home() {
   const { list } = useAppSelector((state) => state.products);
-
   const popularArr = [...list].sort((a, b) => b.likes - a.likes).slice(0, 6);
-  console.log(popularArr);
 
   return (
     <>

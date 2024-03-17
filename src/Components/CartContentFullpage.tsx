@@ -4,11 +4,11 @@ import { findItem } from "../hooks/findItem";
 import { getSubtotal } from "../hooks/getSubtotal";
 import { Link } from "react-router-dom";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { removeFromCart } from "../store/reducers/cartReducer";
+import { removeFromCart } from "../store/reducers/orderReducer";
 
 function CartContentFullpage() {
   const dispatch = useAppDispatch();
-  const { content } = useAppSelector((state) => state.cart);
+  const { content } = useAppSelector((state) => state.order.currentOrder);
   const { list } = useAppSelector((state) => state.products);
 
   return (

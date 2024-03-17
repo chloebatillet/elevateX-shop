@@ -4,7 +4,7 @@ import { findItem } from "../hooks/findItem";
 import { Link } from "react-router-dom";
 
 function CartContentLines() {
-  const { content } = useAppSelector((state) => state.cart);
+  const { content } = useAppSelector((state) => state.order.currentOrder);
   const { list } = useAppSelector((state) => state.products);
 
   return (

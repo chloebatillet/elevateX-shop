@@ -17,7 +17,12 @@ function PayementMethods() {
       <div className="flex flex-wrap gap-2 mt-2">
         {paymentAccepted.map((e) => {
           return (
-            <Image radius="none" src={`/paymentSvg/icon-${e}.svg`} title={e} />
+            <Image
+              key={e}
+              radius="none"
+              src={`/paymentSvg/icon-${e}.svg`}
+              title={e}
+            />
           );
         })}
       </div>
